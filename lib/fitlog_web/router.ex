@@ -7,6 +7,8 @@ defmodule FitlogWeb.Router do
 
   scope "/api", FitlogWeb do
     pipe_through :api
+
+    resources "/reports", ReportController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
