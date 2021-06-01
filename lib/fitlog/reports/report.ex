@@ -21,7 +21,21 @@ defmodule Fitlog.Reports.Report do
   @doc false
   def changeset(report, attrs) do
     report
-    |> cast(attrs, [:user_id, :date, :stepper_steps, :steps, :weight, :dumbbell_sets, :dumbell_weight, :protein, :fat, :carbs, :calories])
-    |> validate_required([:user_id, :date, :stepper_steps, :steps, :weight, :dumbbell_sets, :dumbell_weight, :protein, :fat, :carbs, :calories])
+    |> cast(attrs, [
+      :user_id,
+      :date,
+      :stepper_steps,
+      :steps,
+      :weight,
+      :dumbbell_sets,
+      :dumbell_weight,
+      :protein,
+      :fat,
+      :carbs,
+      :calories
+    ])
+    |> validate_required([
+      :date
+    ])
   end
 end

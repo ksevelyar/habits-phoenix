@@ -11,7 +11,8 @@ defmodule FitlogWeb.ReportView do
   end
 
   def render("report.json", %{report: report}) do
-    %{id: report.id,
+    %{
+      id: report.id,
       date: report.date,
       stepper_steps: report.stepper_steps,
       steps: report.steps,
@@ -21,6 +22,7 @@ defmodule FitlogWeb.ReportView do
       protein: report.protein,
       fat: report.fat,
       carbs: report.carbs,
-      calories: report.calories}
+      calories: report.calories
+    }
   end
 end

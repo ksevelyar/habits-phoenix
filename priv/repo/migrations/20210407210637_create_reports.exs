@@ -17,6 +17,5 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
 
       timestamps()
     end
-
   end
 end

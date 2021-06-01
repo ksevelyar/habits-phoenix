@@ -28,7 +28,18 @@ defmodule FitlogWeb.ReportControllerTest do
     steps: 43,
     weight: "456.7"
   }
-  @invalid_attrs %{calories: nil, carbs: nil, date: nil, dumbbell_sets: nil, dumbell_weight: nil, fat: nil, protein: nil, stepper_steps: nil, steps: nil, weight: nil}
+  @invalid_attrs %{
+    calories: nil,
+    carbs: nil,
+    date: nil,
+    dumbbell_sets: nil,
+    dumbell_weight: nil,
+    fat: nil,
+    protein: nil,
+    stepper_steps: nil,
+    steps: nil,
+    weight: nil
+  }
 
   def fixture(:report) do
     {:ok, report} = Reports.create_report(@create_attrs)
@@ -54,7 +65,7 @@ defmodule FitlogWeb.ReportControllerTest do
       conn = get(conn, Routes.report_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _id,
                "calories" => "120.5",
                "carbs" => "120.5",
                "date" => "2010-04-17",
@@ -84,7 +95,7 @@ defmodule FitlogWeb.ReportControllerTest do
       conn = get(conn, Routes.report_path(conn, :show, id))
 
       assert %{
-               "id" => id,
+               "id" => _id,
                "calories" => "456.7",
                "carbs" => "456.7",
                "date" => "2011-05-18",

@@ -6,9 +6,45 @@ defmodule Fitlog.ReportsTest do
   describe "reports" do
     alias Fitlog.Reports.Report
 
-    @valid_attrs %{calories: "120.5", carbs: "120.5", date: ~D[2010-04-17], dumbbell_sets: 42, dumbell_weight: "120.5", fat: "120.5", protein: "120.5", stepper_steps: 42, steps: 42, user_id: 42, weight: "120.5"}
-    @update_attrs %{calories: "456.7", carbs: "456.7", date: ~D[2011-05-18], dumbbell_sets: 43, dumbell_weight: "456.7", fat: "456.7", protein: "456.7", stepper_steps: 43, steps: 43, user_id: 43, weight: "456.7"}
-    @invalid_attrs %{calories: nil, carbs: nil, date: nil, dumbbell_sets: nil, dumbell_weight: nil, fat: nil, protein: nil, stepper_steps: nil, steps: nil, user_id: nil, weight: nil}
+    @valid_attrs %{
+      calories: "120.5",
+      carbs: "120.5",
+      date: ~D[2010-04-17],
+      dumbbell_sets: 42,
+      dumbell_weight: "120.5",
+      fat: "120.5",
+      protein: "120.5",
+      stepper_steps: 42,
+      steps: 42,
+      user_id: 42,
+      weight: "120.5"
+    }
+    @update_attrs %{
+      calories: "456.7",
+      carbs: "456.7",
+      date: ~D[2011-05-18],
+      dumbbell_sets: 43,
+      dumbell_weight: "456.7",
+      fat: "456.7",
+      protein: "456.7",
+      stepper_steps: 43,
+      steps: 43,
+      user_id: 43,
+      weight: "456.7"
+    }
+    @invalid_attrs %{
+      calories: nil,
+      carbs: nil,
+      date: nil,
+      dumbbell_sets: nil,
+      dumbell_weight: nil,
+      fat: nil,
+      protein: nil,
+      stepper_steps: nil,
+      steps: nil,
+      user_id: nil,
+      weight: nil
+    }
 
     def report_fixture(attrs \\ %{}) do
       {:ok, report} =
