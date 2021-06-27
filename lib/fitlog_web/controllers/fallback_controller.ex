@@ -13,4 +13,11 @@ defmodule FitlogWeb.FallbackController do
     |> put_view(FitlogWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, %Ecto.Changeset{} = changeset}) do
+    conn
+    |> put_status(:unprocessable_entity)
+    |> put_view(FitlogWeb.ErrorView)
+    |> render("error.json", changeset: changeset)
+  end
 end

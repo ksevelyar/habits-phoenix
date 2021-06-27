@@ -3,7 +3,7 @@ use Mix.Config
 # Configure your database
 config :fitlog, Fitlog.Repo,
   username: "postgres",
-  password: "postgres",
+  password: "",
   database: "fitlog_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
