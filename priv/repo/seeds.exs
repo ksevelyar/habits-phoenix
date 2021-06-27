@@ -1,11 +1,12 @@
 # Script for populating the database. You can run it as:
-#
 #     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Fitlog.Repo.insert!(%Fitlog.SomeSchema{})
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+alias Fitlog.Repo
+alias Fitlog.Reports.Report
+
+Repo.insert!(%Report{date: Date.utc_today(), weight: 89})
+Repo.insert!(%Report{date: Date.utc_today() |> Date.add(-1), weight: 90})
+Repo.insert!(%Report{date: Date.utc_today() |> Date.add(-2), weight: 91})
