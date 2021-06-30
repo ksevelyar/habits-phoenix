@@ -17,11 +17,11 @@ mix phx.routes
 ```
 
 ```
-report_path  GET     /api/reports      FitlogWeb.ReportController :index
-report_path  GET     /api/reports/:id  FitlogWeb.ReportController :show
-report_path  POST    /api/reports      FitlogWeb.ReportController :create
-report_path  PATCH   /api/reports/:id  FitlogWeb.ReportController :update
-report_path  DELETE  /api/reports/:id  FitlogWeb.ReportController :delete
+report_path  GET     /reports      FitlogWeb.ReportController :index
+report_path  GET     /reports/:id  FitlogWeb.ReportController :show
+report_path  POST    /reports      FitlogWeb.ReportController :create
+report_path  PATCH   /reports/:id  FitlogWeb.ReportController :update
+report_path  DELETE  /reports/:id  FitlogWeb.ReportController :delete
 ```
 
 ## Test

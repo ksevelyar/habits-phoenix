@@ -5,7 +5,7 @@ defmodule FitlogWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", FitlogWeb do
+  scope "/", FitlogWeb do
     pipe_through :api
 
     resources "/reports", ReportController, except: [:new, :edit]
@@ -21,9 +21,9 @@ defmodule FitlogWeb.Router do
   if Mix.env() in [:dev, :test] do
     import Phoenix.LiveDashboard.Router
 
-    scope "/" do
+    scope "/dashboard" do
       pipe_through [:fetch_session, :protect_from_forgery]
-      live_dashboard "/dashboard", metrics: FitlogWeb.Telemetry
+      live_dashboard "/", metrics: FitlogWeb.Telemetry
     end
   end
 end

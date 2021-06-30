@@ -48,5 +48,7 @@ defmodule FitlogWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug CORSPlug
   plug FitlogWeb.Router
 end
