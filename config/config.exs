@@ -26,6 +26,10 @@ config :fitlog, FitlogWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :fitlog, Fitlog.Mailer, adapter: Swoosh.Adapters.Local
 
+config :fitlog, Fitlog.Guardian,
+  issuer: "fitlog",
+  secret_key: "mix guardian.gen.secret"
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
