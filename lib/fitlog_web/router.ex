@@ -9,6 +9,20 @@ defmodule FitlogWeb.Router do
     pipe_through :api
   end
 
+  pipeline :browser do
+    plug Ueberauth
+    plug :fetch_session
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  scope "/auth", FitlogWeb do
+    pipe_through :browser
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   # Enables LiveDashboard only for development
   #
   # If you want to use the LiveDashboard in production, you should put

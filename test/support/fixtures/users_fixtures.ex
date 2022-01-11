@@ -5,9 +5,9 @@ defmodule Fitlog.UsersFixtures do
       |> Enum.into(%{
         email: "email@domain.tld",
         handle: "handle",
-        raw_password: "password"
+        avatar_url: "https://avatars.githubusercontent.com/u/725959?v=4"
       })
-      |> Fitlog.Users.create_user()
+      |> Fitlog.Users.upsert()
 
     user
   end
