@@ -10,30 +10,30 @@ defmodule Fitlog.UsersTest do
 
     @invalid_attrs %{email: "babah", handle: "@sobaken"}
 
-    test "list_users/0 returns all users" do
-      user = %{user_fixture() | raw_password: nil}
-      assert Users.list_users() == [user]
+    test "list/0 returns all users" do
+      user = user_fixture()
+      assert Users.list() == [user]
     end
 
-    test "get_user!/1 returns the user with given id" do
-      user = %{user_fixture() | raw_password: nil}
-      assert Users.get_user!(user.id) == user
+    test "get/1 returns the user with given id" do
+      user = user_fixture()
+      assert Users.get!(user.id) == user
     end
 
-    test "create_user/1 with valid data creates a user" do
-      valid_attrs = %{email: "email@domain.tld", handle: "ksevelyar", raw_password: "babah"}
+    test "upsert/1 with valid data creates a user" do
+      valid_attrs = %{email: "email@domain.tld", handle: "ksevelyar", avatar_url: "babah"}
 
-      assert {:ok, %User{} = user} = Users.create_user(valid_attrs)
+      assert {:ok, %User{} = user} = Users.upsert(valid_attrs)
       assert user.email == "email@domain.tld"
       assert user.handle == "ksevelyar"
-      assert user.password != "babah"
+      assert user.avatar_url == "babah"
     end
 
-    test "create_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Users.create_user(@invalid_attrs)
+    test "upsert/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Users.upsert(@invalid_attrs)
     end
 
-    test "update_user/2 with valid data updates the user" do
+    test "update/2 with valid data updates the user" do
       user = user_fixture()
 
       update_attrs = %{
@@ -41,26 +41,26 @@ defmodule Fitlog.UsersTest do
         handle: "babaher"
       }
 
-      assert {:ok, %User{} = user} = Users.update_user(user, update_attrs)
+      assert {:ok, %User{} = user} = Users.update(user, update_attrs)
       assert user.email == "ksevelyar@domain.tld"
       assert user.handle == "babaher"
     end
 
     test "update_user/2 with invalid data returns error changeset" do
-      user = %{user_fixture() | raw_password: nil}
-      assert {:error, %Ecto.Changeset{}} = Users.update_user(user, @invalid_attrs)
-      assert user == Users.get_user!(user.id)
+      user = user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Users.update(user, @invalid_attrs)
+      assert user == Users.get!(user.id)
     end
 
     test "delete_user/1 deletes the user" do
       user = user_fixture()
-      assert {:ok, %User{}} = Users.delete_user(user)
-      assert_raise Ecto.NoResultsError, fn -> Users.get_user!(user.id) end
+      assert {:ok, %User{}} = Users.delete(user)
+      assert_raise Ecto.NoResultsError, fn -> Users.get!(user.id) end
     end
 
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
-      assert %Ecto.Changeset{} = Users.change_user(user)
+      assert %Ecto.Changeset{} = Users.change(user)
     end
   end
 end

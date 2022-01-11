@@ -4,8 +4,8 @@ defmodule Fitlog.Repo.Migrations.CreateUsers do
   def change do
     create table(:users) do
       add :handle, :string, null: false
-      add :password, :string, null: false
       add :email, :string, null: false
+      add :avatar_url, :string, null: false
       timestamps()
     end
 

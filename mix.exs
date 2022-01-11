@@ -17,7 +17,7 @@ defmodule Fitlog.MixProject do
   def application do
     [
       mod: {Fitlog.Application, []},
-      extra_applications: [:logger, :runtime_tools],
+      extra_applications: [:logger, :runtime_tools, :guardian]
     ]
   end
 
@@ -39,7 +39,7 @@ defmodule Fitlog.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.0"},
-      {:argon2_elixir, "~> 2.0"}
+      {:ueberauth_github, "~> 0.7"}
     ]
   end
 
