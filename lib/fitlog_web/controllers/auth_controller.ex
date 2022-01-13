@@ -18,8 +18,7 @@ defmodule FitlogWeb.AuthController do
       })
 
     Guardian.Plug.sign_in(conn, user)
-
-    redirect(conn, external: redirect_to_front(user.handle))
+    |> redirect(external: redirect_to_front(user.handle))
   end
 
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
