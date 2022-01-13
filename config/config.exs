@@ -26,7 +26,7 @@ config :fitlog, FitlogWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :fitlog, Fitlog.Mailer, adapter: Swoosh.Adapters.Local
 
-config :fitlog, Fitlog.Guardian,
+config :fitlog, Fitlog.Users.Guardian,
   issuer: "fitlog",
   secret_key: "mix guardian.gen.secret"
 
