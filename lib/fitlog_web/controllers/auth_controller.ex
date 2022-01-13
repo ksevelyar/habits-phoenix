@@ -1,7 +1,13 @@
 defmodule FitlogWeb.AuthController do
   use FitlogWeb, :controller
 
+  alias Fitlog.Users.Guardian
+
   plug Ueberauth
+
+  defp redirect_to_front(handle) do
+    "#{System.get_env("FRONT")}/#{handle}"
+  end
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do
     {:ok, user} =
@@ -11,7 +17,9 @@ defmodule FitlogWeb.AuthController do
         avatar_url: auth.info.image
       })
 
-    json(conn, user)
+    Guardian.Plug.sign_in(conn, user)
+
+    redirect(conn, external: redirect_to_front(user.handle))
   end
 
   def callback(%{assigns: %{ueberauth_failure: _fails}} = conn, _params) do
