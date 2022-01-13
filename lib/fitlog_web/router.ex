@@ -1,19 +1,22 @@
 defmodule FitlogWeb.Router do
   use FitlogWeb, :router
 
-  pipeline :api do
+  pipeline :auth do
     plug :accepts, ["json"]
-  end
-
-  scope "/api", FitlogWeb do
-    pipe_through :api
+    plug :fetch_session
+    plug Fitlog.Users.Pipeline
   end
 
   pipeline :browser do
-    plug Ueberauth
     plug :fetch_session
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+  end
+
+  scope "/", FitlogWeb do
+    pipe_through :auth
+
+    get "/user", UsersController, :show
   end
 
   scope "/auth", FitlogWeb do
