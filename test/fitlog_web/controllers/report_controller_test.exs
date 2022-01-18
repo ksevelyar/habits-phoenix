@@ -2,11 +2,12 @@ defmodule FitlogWeb.ReportControllerTest do
   use FitlogWeb.ConnCase
 
   import Fitlog.ReportsFixtures
+  import Fitlog.UsersFixtures
 
   alias Fitlog.Reports.Report
 
   @create_attrs %{
-    calories: "120.5",
+    calories: "1200",
     carbs: "120.5",
     date: ~D[2022-01-16],
     dumbbells: "120.5",
@@ -17,7 +18,7 @@ defmodule FitlogWeb.ReportControllerTest do
     weight: "120.5"
   }
   @update_attrs %{
-    calories: "456.7",
+    calories: "1500",
     carbs: "456.7",
     date: ~D[2022-01-17],
     dumbbells: "456.7",
@@ -27,10 +28,22 @@ defmodule FitlogWeb.ReportControllerTest do
     steps: 43,
     weight: "456.7"
   }
-  @invalid_attrs %{calories: nil, carbs: nil, date: nil, dumbbells: nil, fat: nil, protein: nil, stepper: nil, steps: nil, weight: nil}
+  @invalid_attrs %{
+    calories: nil,
+    carbs: nil,
+    date: nil,
+    dumbbells: nil,
+    fat: nil,
+    protein: nil,
+    stepper: nil,
+    steps: nil,
+    weight: nil
+  }
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    signed_conn = Fitlog.Users.Guardian.Plug.sign_in(conn, user_fixture()) |>
+ Guardian.Plug.VerifySession.call([])
+    {:ok, conn: put_req_header(signed_conn, "accept", "application/json")}
   end
 
   describe "index" do
@@ -107,6 +120,10 @@ defmodule FitlogWeb.ReportControllerTest do
         get(conn, Routes.report_path(conn, :show, report))
       end
     end
+  end
+
+  defp create_user(_) do
+    %{user: user_fixture()}
   end
 
   defp create_report(_) do
