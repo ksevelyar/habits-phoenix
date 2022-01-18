@@ -3,7 +3,7 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
 
   def change do
     create table(:reports) do
-      add :date, :date
+      add :date, :date, null: false
       add :stepper, :integer
       add :steps, :integer
       add :weight, :decimal
@@ -11,7 +11,7 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
       add :protein, :decimal
       add :fat, :decimal
       add :carbs, :decimal
-      add :calories, :decimal
+      add :calories, :integer
       add :user_id, references(:users, on_delete: :nothing)
 
       timestamps()
