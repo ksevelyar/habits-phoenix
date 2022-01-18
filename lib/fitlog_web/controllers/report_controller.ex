@@ -15,7 +15,6 @@ defmodule FitlogWeb.ReportController do
     with {:ok, %Report{} = report} <- Reports.create_report(report_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.report_path(conn, :show, report))
       |> render("show.json", report: report)
     end
   end
