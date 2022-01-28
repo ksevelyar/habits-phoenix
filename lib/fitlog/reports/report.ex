@@ -3,7 +3,7 @@ defmodule Fitlog.Reports.Report do
   import Ecto.Changeset
 
   schema "reports" do
-    field :calories, :decimal
+    field :calories, :integer
     field :carbs, :decimal
     field :date, :date
     field :dumbbells, :decimal
@@ -12,7 +12,8 @@ defmodule Fitlog.Reports.Report do
     field :stepper, :integer
     field :steps, :integer
     field :weight, :decimal
-    field :user_id, :id
+
+    belongs_to :user, Fitlog.Users.User
 
     timestamps()
   end
@@ -20,7 +21,27 @@ defmodule Fitlog.Reports.Report do
   @doc false
   def changeset(report, attrs) do
     report
-    |> cast(attrs, [:date, :stepper, :steps, :weight, :dumbbells, :protein, :fat, :carbs, :calories])
-    |> validate_required([:date, :stepper, :steps, :weight, :dumbbells, :protein, :fat, :carbs, :calories])
+    |> cast(attrs, [
+      :date,
+      :stepper,
+      :steps,
+      :weight,
+      :dumbbells,
+      :protein,
+      :fat,
+      :carbs,
+      :calories
+    ])
+    |> validate_required([
+      :date,
+      :stepper,
+      :steps,
+      :weight,
+      :dumbbells,
+      :protein,
+      :fat,
+      :carbs,
+      :calories
+    ])
   end
 end

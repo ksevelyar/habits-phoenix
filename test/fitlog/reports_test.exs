@@ -8,7 +8,17 @@ defmodule Fitlog.ReportsTest do
 
     import Fitlog.ReportsFixtures
 
-    @invalid_attrs %{calories: nil, carbs: nil, date: nil, dumbbells: nil, fat: nil, protein: nil, stepper: nil, steps: nil, weight: nil}
+    @invalid_attrs %{
+      calories: nil,
+      carbs: nil,
+      date: nil,
+      dumbbells: nil,
+      fat: nil,
+      protein: nil,
+      stepper: nil,
+      steps: nil,
+      weight: nil
+    }
 
     test "list_reports/0 returns all reports" do
       report = report_fixture()
@@ -21,10 +31,20 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "create_report/1 with valid data creates a report" do
-      valid_attrs = %{calories: "120.5", carbs: "120.5", date: ~D[2022-01-16], dumbbells: "120.5", fat: "120.5", protein: "120.5", stepper: 42, steps: 42, weight: "120.5"}
+      valid_attrs = %{
+        calories: 1200,
+        carbs: "120.5",
+        date: ~D[2022-01-16],
+        dumbbells: "120.5",
+        fat: "120.5",
+        protein: "120.5",
+        stepper: 42,
+        steps: 42,
+        weight: "120.5"
+      }
 
       assert {:ok, %Report{} = report} = Reports.create_report(valid_attrs)
-      assert report.calories == Decimal.new("120.5")
+      assert report.calories == 1200
       assert report.carbs == Decimal.new("120.5")
       assert report.date == ~D[2022-01-16]
       assert report.dumbbells == Decimal.new("120.5")
@@ -41,10 +61,21 @@ defmodule Fitlog.ReportsTest do
 
     test "update_report/2 with valid data updates the report" do
       report = report_fixture()
-      update_attrs = %{calories: "456.7", carbs: "456.7", date: ~D[2022-01-17], dumbbells: "456.7", fat: "456.7", protein: "456.7", stepper: 43, steps: 43, weight: "456.7"}
+
+      update_attrs = %{
+        calories: 600,
+        carbs: "456.7",
+        date: ~D[2022-01-17],
+        dumbbells: "456.7",
+        fat: "456.7",
+        protein: "456.7",
+        stepper: 43,
+        steps: 43,
+        weight: "456.7"
+      }
 
       assert {:ok, %Report{} = report} = Reports.update_report(report, update_attrs)
-      assert report.calories == Decimal.new("456.7")
+      assert report.calories == 600
       assert report.carbs == Decimal.new("456.7")
       assert report.date == ~D[2022-01-17]
       assert report.dumbbells == Decimal.new("456.7")
