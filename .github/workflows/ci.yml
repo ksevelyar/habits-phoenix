@@ -23,3 +23,5 @@ jobs:
           elixir-version: ${{matrix.elixir}}
       - run: mix deps.get
       - run: mix test
+        env: 
+          FRONT: http://localhost:8080
