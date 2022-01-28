@@ -8,6 +8,7 @@ defmodule Fitlog.Users.User do
     field :email, :string
     field :avatar_url, :string
     field :handle, :string
+    has_many :reports, Fitlog.Reports.Report
 
     timestamps()
   end

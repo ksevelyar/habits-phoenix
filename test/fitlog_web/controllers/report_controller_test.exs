@@ -7,7 +7,7 @@ defmodule FitlogWeb.ReportControllerTest do
   alias Fitlog.Reports.Report
 
   @create_attrs %{
-    calories: "1200",
+    calories: 1200,
     carbs: "120.5",
     date: ~D[2022-01-16],
     dumbbells: "120.5",
@@ -18,7 +18,7 @@ defmodule FitlogWeb.ReportControllerTest do
     weight: "120.5"
   }
   @update_attrs %{
-    calories: "1500",
+    calories: 1500,
     carbs: "456.7",
     date: ~D[2022-01-17],
     dumbbells: "456.7",
@@ -40,10 +40,13 @@ defmodule FitlogWeb.ReportControllerTest do
     weight: nil
   }
 
+  defp login(conn) do
+    Fitlog.Users.Guardian.Plug.sign_in(conn, user_fixture())
+    |> Guardian.Plug.VerifySession.call([])
+  end
+
   setup %{conn: conn} do
-    signed_conn = Fitlog.Users.Guardian.Plug.sign_in(conn, user_fixture()) |>
- Guardian.Plug.VerifySession.call([])
-    {:ok, conn: put_req_header(signed_conn, "accept", "application/json")}
+    {:ok, conn: put_req_header(login(conn), "accept", "application/json")}
   end
 
   describe "index" do
@@ -55,14 +58,15 @@ defmodule FitlogWeb.ReportControllerTest do
 
   describe "create report" do
     test "renders report when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.report_path(conn, :create), report: @create_attrs)
-      assert %{"id" => id} = json_response(conn, 201)["data"]
+      report = post(conn, Routes.report_path(conn, :create), report: @create_attrs)
+
+      assert %{"id" => id} = json_response(report, 201)["data"]
 
       conn = get(conn, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
-               "calories" => "120.5",
+               "calories" => 1200,
                "carbs" => "120.5",
                "date" => "2022-01-16",
                "dumbbells" => "120.5",
@@ -84,14 +88,14 @@ defmodule FitlogWeb.ReportControllerTest do
     setup [:create_report]
 
     test "renders report when data is valid", %{conn: conn, report: %Report{id: id} = report} do
-      conn = put(conn, Routes.report_path(conn, :update, report), report: @update_attrs)
-      assert %{"id" => ^id} = json_response(conn, 200)["data"]
+      report = put(conn, Routes.report_path(conn, :update, report), report: @update_attrs)
+      assert %{"id" => ^id} = json_response(report, 200)["data"]
 
       conn = get(conn, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
-               "calories" => "456.7",
+               "calories" => 1500,
                "carbs" => "456.7",
                "date" => "2022-01-17",
                "dumbbells" => "456.7",
@@ -113,8 +117,8 @@ defmodule FitlogWeb.ReportControllerTest do
     setup [:create_report]
 
     test "deletes chosen report", %{conn: conn, report: report} do
-      conn = delete(conn, Routes.report_path(conn, :delete, report))
-      assert response(conn, 204)
+      delete_conn = delete(conn, Routes.report_path(conn, :delete, report))
+      assert response(delete_conn, 204)
 
       assert_error_sent 404, fn ->
         get(conn, Routes.report_path(conn, :show, report))

@@ -11,7 +11,7 @@ defmodule Fitlog.ReportsFixtures do
     {:ok, report} =
       attrs
       |> Enum.into(%{
-        calories: "120.5",
+        calories: 1200,
         carbs: "120.5",
         date: ~D[2022-01-16],
         dumbbells: "120.5",
