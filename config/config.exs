@@ -14,7 +14,7 @@ config :fitlog,
 config :fitlog, FitlogWeb.Endpoint,
   url: [host: "localhost"],
   render_errors: [view: FitlogWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Fitlog.PubSub,
+  pubsub_server: Fitlog.PubSub
 
 config :fitlog, Fitlog.Users.Guardian,
   issuer: "fitlog",
