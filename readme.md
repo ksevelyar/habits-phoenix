@@ -14,4 +14,4 @@ mix phx.new fitlog-phoenix --app fitlog --no-assets --no-html --no-dashboard --n
 
 `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
-curlie [`localhost:4000`](http://localhost:4000)
+`curlie localhost:4000`
