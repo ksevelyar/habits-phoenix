@@ -22,7 +22,6 @@ defmodule FitlogWeb do
       use Phoenix.Controller, namespace: FitlogWeb
 
       import Plug.Conn
-      import FitlogWeb.Gettext
       alias FitlogWeb.Router.Helpers, as: Routes
     end
   end
@@ -54,7 +53,6 @@ defmodule FitlogWeb do
   def channel do
     quote do
       use Phoenix.Channel
-      import FitlogWeb.Gettext
     end
   end
 
@@ -64,7 +62,6 @@ defmodule FitlogWeb do
       import Phoenix.View
 
       import FitlogWeb.ErrorHelpers
-      import FitlogWeb.Gettext
       alias FitlogWeb.Router.Helpers, as: Routes
     end
   end

@@ -20,9 +20,6 @@ config :fitlog, FitlogWeb.Endpoint,
   secret_key_base: "6PddvCFyxT7s9MpU7Fgbl6S46/QG6PLW8c0L+Qr+VrnHV/PUvoyn3O1MigZBlBUu",
   server: false
 
-# In test we don't send emails.
-config :fitlog, Fitlog.Mailer, adapter: Swoosh.Adapters.Test
-
 # Print only warnings and errors during test
 config :logger, level: :warn
 
