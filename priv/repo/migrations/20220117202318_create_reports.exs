@@ -12,7 +12,7 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
       add :fat, :decimal
       add :carbs, :decimal
       add :calories, :integer
-      add :user_id, references(:users, on_delete: :nothing)
+      add :user_id, references(:users, on_delete: :delete_all), null: false
 
       timestamps()
     end

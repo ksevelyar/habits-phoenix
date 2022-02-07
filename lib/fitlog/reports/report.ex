@@ -43,5 +43,6 @@ defmodule Fitlog.Reports.Report do
       :carbs,
       :calories
     ])
+    |> assoc_constraint(:user)
   end
 end

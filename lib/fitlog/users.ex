@@ -12,6 +12,7 @@ defmodule Fitlog.Users do
   def get_by_handle(handle) do
     from(u in User, where: u.handle == ^handle)
     |> Repo.one()
+    |> Repo.preload(:reports)
   end
 
   def upsert(user) do
