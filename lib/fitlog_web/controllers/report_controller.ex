@@ -6,13 +6,19 @@ defmodule FitlogWeb.ReportController do
 
   action_fallback FitlogWeb.FallbackController
 
+  defp current_user(conn) do
+    Guardian.Plug.current_resource(conn)
+  end
+
   def index(conn, _params) do
     reports = Reports.list_reports()
     render(conn, "index.json", reports: reports)
   end
 
   def create(conn, %{"report" => report_params}) do
-    with {:ok, %Report{} = report} <- Reports.create_report(report_params) do
+    user = current_user(conn)
+
+    with {:ok, %Report{} = report} <- Reports.create_report(user, report_params) do
       conn
       |> put_status(:created)
       |> render("show.json", report: report)

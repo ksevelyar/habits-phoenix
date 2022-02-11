@@ -1,12 +1,16 @@
 defmodule Fitlog.ReportsTest do
   use Fitlog.DataCase
 
-  alias Fitlog.Reports
+  import Fitlog.UsersFixtures
+  import Fitlog.ReportsFixtures
+
+  defp report_with_user do
+    user_fixture() |> report_fixture()
+  end
 
   describe "reports" do
+    alias Fitlog.Reports
     alias Fitlog.Reports.Report
-
-    import Fitlog.ReportsFixtures
 
     @invalid_attrs %{
       calories: nil,
@@ -21,12 +25,12 @@ defmodule Fitlog.ReportsTest do
     }
 
     test "list_reports/0 returns all reports" do
-      report = report_fixture()
+      report = report_with_user()
       assert Reports.list_reports() == [report]
     end
 
     test "get_report!/1 returns the report with given id" do
-      report = report_fixture()
+      report = report_with_user()
       assert Reports.get_report!(report.id) == report
     end
 
@@ -43,7 +47,7 @@ defmodule Fitlog.ReportsTest do
         weight: "120.5"
       }
 
-      assert {:ok, %Report{} = report} = Reports.create_report(valid_attrs)
+      assert {:ok, %Report{} = report} = Reports.create_report(user_fixture(), valid_attrs)
       assert report.calories == 1200
       assert report.carbs == Decimal.new("120.5")
       assert report.date == ~D[2022-01-16]
@@ -56,11 +60,11 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "create_report/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Reports.create_report(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Reports.create_report(user_fixture(), @invalid_attrs)
     end
 
     test "update_report/2 with valid data updates the report" do
-      report = report_fixture()
+      report = report_with_user()
 
       update_attrs = %{
         calories: 600,
@@ -87,19 +91,19 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "update_report/2 with invalid data returns error changeset" do
-      report = report_fixture()
+      report = report_with_user()
       assert {:error, %Ecto.Changeset{}} = Reports.update_report(report, @invalid_attrs)
       assert report == Reports.get_report!(report.id)
     end
 
     test "delete_report/1 deletes the report" do
-      report = report_fixture()
+      report = report_with_user()
       assert {:ok, %Report{}} = Reports.delete_report(report)
       assert_raise Ecto.NoResultsError, fn -> Reports.get_report!(report.id) end
     end
 
     test "change_report/1 returns a report changeset" do
-      report = report_fixture()
+      report = report_with_user()
       assert %Ecto.Changeset{} = Reports.change_report(report)
     end
   end

@@ -11,7 +11,9 @@ config :fitlog, Fitlog.Repo,
   database: "fitlog_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
-  pool_size: 10
+  pool_size: 10,
+  # fix IEx.pry
+  ownership_timeout: 60_000_000
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.

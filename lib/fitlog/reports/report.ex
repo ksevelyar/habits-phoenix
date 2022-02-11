@@ -18,7 +18,6 @@ defmodule Fitlog.Reports.Report do
     timestamps()
   end
 
-  @doc false
   def changeset(report, attrs) do
     report
     |> cast(attrs, [
@@ -44,5 +43,6 @@ defmodule Fitlog.Reports.Report do
       :calories
     ])
     |> assoc_constraint(:user)
+    |> unique_constraint([:user_id, :date])
   end
 end

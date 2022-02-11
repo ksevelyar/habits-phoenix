@@ -126,12 +126,8 @@ defmodule FitlogWeb.ReportControllerTest do
     end
   end
 
-  defp create_user(_) do
-    %{user: user_fixture()}
-  end
-
   defp create_report(_) do
-    report = report_fixture()
+    report = report_fixture(user_fixture())
     %{report: report}
   end
 end

@@ -1,14 +1,6 @@
 defmodule Fitlog.ReportsFixtures do
-  @moduledoc """
-  This module defines test helpers for creating
-  entities via the `Fitlog.Reports` context.
-  """
-
-  @doc """
-  Generate a report.
-  """
-  def report_fixture(attrs \\ %{}) do
-    {:ok, report} =
+  def report_fixture(user, attrs \\ %{}) do
+    report_attrs =
       attrs
       |> Enum.into(%{
         calories: 1200,
@@ -21,8 +13,8 @@ defmodule Fitlog.ReportsFixtures do
         steps: 42,
         weight: "120.5"
       })
-      |> Fitlog.Reports.create_report()
 
+    {:ok, report} = Fitlog.Reports.create_report(user, report_attrs)
     report
   end
 end
