@@ -21,4 +21,11 @@ defmodule FitlogWeb.FallbackController do
     |> put_view(FitlogWeb.ErrorView)
     |> render(:"404")
   end
+
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:forbidden)
+    |> put_view(FitlogWeb.ErrorView)
+    |> render(:"forbidden.json")
+  end
 end
