@@ -1,8 +1,8 @@
 defmodule Fitlog.Reports do
-  import Ecto.Query, warn: false
   alias Fitlog.Repo
-
   alias Fitlog.Reports.Report
+
+defdelegate authorize(action, user, params), to: Fitlog.Reports.Policy
 
   def list_reports do
     Repo.all(Report)
