@@ -1,6 +1,8 @@
 defmodule Fitlog.Reports.Report do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query, only: [from: 2]
+  @behaviour Bodyguard.Schema
 
   schema "reports" do
     field :calories, :integer
@@ -16,6 +18,10 @@ defmodule Fitlog.Reports.Report do
     belongs_to :user, Fitlog.Users.User
 
     timestamps()
+  end
+
+  def scope(query, %Fitlog.Users.User{id: user_id}, _) do
+    from reports in query, where: reports.user_id == ^user_id
   end
 
   def changeset(report, attrs) do
