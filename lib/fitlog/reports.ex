@@ -2,10 +2,12 @@ defmodule Fitlog.Reports do
   alias Fitlog.Repo
   alias Fitlog.Reports.Report
 
-defdelegate authorize(action, user, params), to: Fitlog.Reports.Policy
+  defdelegate authorize(action, user, params), to: Fitlog.Reports.Policy
 
-  def list_reports do
-    Repo.all(Report)
+  def list_user_reports(user) do
+    Report
+    |> Bodyguard.scope(user)
+    |> Repo.all()
   end
 
   def get_report!(id), do: Repo.get!(Report, id)

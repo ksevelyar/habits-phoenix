@@ -5,7 +5,8 @@ defmodule Fitlog.ReportsTest do
   import Fitlog.ReportsFixtures
 
   defp report_with_user do
-    user_fixture() |> report_fixture()
+    user = user_fixture()
+    {report_fixture(user), user}
   end
 
   describe "reports" do
@@ -24,13 +25,13 @@ defmodule Fitlog.ReportsTest do
       weight: nil
     }
 
-    test "list_reports/0 returns all reports" do
-      report = report_with_user()
-      assert Reports.list_reports() == [report]
+    test "list_user_reports/1 returns user reports" do
+      {report, user} = report_with_user()
+      assert Reports.list_user_reports(user) == [report]
     end
 
     test "get_report!/1 returns the report with given id" do
-      report = report_with_user()
+      {report, _user} = report_with_user()
       assert Reports.get_report!(report.id) == report
     end
 
@@ -64,7 +65,7 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "update_report/2 with valid data updates the report" do
-      report = report_with_user()
+      {report, _user} = report_with_user()
 
       update_attrs = %{
         calories: 600,
@@ -91,19 +92,19 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "update_report/2 with invalid data returns error changeset" do
-      report = report_with_user()
+      {report, _user} = report_with_user()
       assert {:error, %Ecto.Changeset{}} = Reports.update_report(report, @invalid_attrs)
       assert report == Reports.get_report!(report.id)
     end
 
     test "delete_report/1 deletes the report" do
-      report = report_with_user()
+      {report, _user} = report_with_user()
       assert {:ok, %Report{}} = Reports.delete_report(report)
       assert_raise Ecto.NoResultsError, fn -> Reports.get_report!(report.id) end
     end
 
     test "change_report/1 returns a report changeset" do
-      report = report_with_user()
+      {report, _user} = report_with_user()
       assert %Ecto.Changeset{} = Reports.change_report(report)
     end
   end

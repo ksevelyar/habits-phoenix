@@ -11,7 +11,9 @@ defmodule FitlogWeb.ReportController do
   end
 
   def index(conn, _params) do
-    reports = Reports.list_reports()
+    user = current_user(conn)
+    reports = Reports.list_user_reports(user)
+
     render(conn, "index.json", reports: reports)
   end
 
@@ -31,17 +33,21 @@ defmodule FitlogWeb.ReportController do
   end
 
   def update(conn, %{"id" => id, "report" => report_params}) do
+    user = current_user(conn)
     report = Reports.get_report!(id)
 
-    with {:ok, %Report{} = report} <- Reports.update_report(report, report_params) do
+    with :ok <- Bodyguard.permit(Fitlog.Reports, :update, user, report),
+         {:ok, %Report{} = report} <- Reports.update_report(report, report_params) do
       render(conn, "show.json", report: report)
     end
   end
 
   def delete(conn, %{"id" => id}) do
+    user = current_user(conn)
     report = Reports.get_report!(id)
 
-    with {:ok, %Report{}} <- Reports.delete_report(report) do
+    with :ok <- Bodyguard.permit(Fitlog.Reports, :delete, user, report),
+         {:ok, %Report{}} <- Reports.delete_report(report) do
       send_resp(conn, :no_content, "")
     end
   end
