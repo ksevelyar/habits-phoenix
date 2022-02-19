@@ -1,5 +1,10 @@
 # Fitlog [![ci](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml/badge.svg)](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml)
 
+* JSON API with CORS
+* JWT via https only cookie
+* Bodyguard for authorization
+* Ueberauth for authentication
+
 ## Boilerplate
 
 ```
