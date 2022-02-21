@@ -40,29 +40,35 @@ defmodule FitlogWeb.ReportControllerTest do
     weight: nil
   }
 
-  defp login(conn) do
-    Fitlog.Users.Guardian.Plug.sign_in(conn, user_fixture())
+  defp login(conn, user) do
+    Fitlog.Users.Guardian.Plug.sign_in(conn, user)
     |> Guardian.Plug.VerifySession.call([])
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(login(conn), "accept", "application/json")}
+    {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
   describe "index" do
-    test "lists all reports", %{conn: conn} do
-      conn = get(conn, Routes.report_path(conn, :index))
-      assert json_response(conn, 200)["data"] == []
+    setup [:create_report]
+
+    test "lists user reports", %{conn: conn, user: user} do
+      conn_with_user = login(conn, user)
+
+      conn = get(conn_with_user, Routes.report_path(conn, :index))
+
+      assert json_response(conn, 200)
     end
   end
 
   describe "create report" do
     test "renders report when data is valid", %{conn: conn} do
-      report = post(conn, Routes.report_path(conn, :create), report: @create_attrs)
+      conn_with_user = login(conn, user_fixture())
+      report = post(conn_with_user, Routes.report_path(conn, :create), report: @create_attrs)
 
       assert %{"id" => id} = json_response(report, 201)["data"]
 
-      conn = get(conn, Routes.report_path(conn, :show, id))
+      conn = get(conn_with_user, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
@@ -79,7 +85,8 @@ defmodule FitlogWeb.ReportControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.report_path(conn, :create), report: @invalid_attrs)
+      conn_with_user = login(conn, user_fixture())
+      conn = post(conn_with_user, Routes.report_path(conn, :create), report: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -87,11 +94,19 @@ defmodule FitlogWeb.ReportControllerTest do
   describe "update report" do
     setup [:create_report]
 
-    test "renders report when data is valid", %{conn: conn, report: %Report{id: id} = report} do
-      report = put(conn, Routes.report_path(conn, :update, report), report: @update_attrs)
+    test "renders report when data is valid", %{
+      conn: conn,
+      report: %Report{id: id} = report,
+      user: user
+    } do
+      conn_with_user = login(conn, user)
+
+      report =
+        put(conn_with_user, Routes.report_path(conn, :update, report), report: @update_attrs)
+
       assert %{"id" => ^id} = json_response(report, 200)["data"]
 
-      conn = get(conn, Routes.report_path(conn, :show, id))
+      conn = get(conn_with_user, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
@@ -107,8 +122,12 @@ defmodule FitlogWeb.ReportControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn, report: report} do
-      conn = put(conn, Routes.report_path(conn, :update, report), report: @invalid_attrs)
+    test "renders errors when data is invalid", %{conn: conn, report: report, user: user} do
+      conn_with_user = login(conn, user)
+
+      conn =
+        put(conn_with_user, Routes.report_path(conn, :update, report), report: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end
@@ -116,18 +135,21 @@ defmodule FitlogWeb.ReportControllerTest do
   describe "delete report" do
     setup [:create_report]
 
-    test "deletes chosen report", %{conn: conn, report: report} do
-      delete_conn = delete(conn, Routes.report_path(conn, :delete, report))
+    test "deletes chosen report", %{conn: conn, report: report, user: user} do
+      conn_with_user = login(conn, user)
+
+      delete_conn = delete(conn_with_user, Routes.report_path(conn, :delete, report))
       assert response(delete_conn, 204)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.report_path(conn, :show, report))
+        get(conn_with_user, Routes.report_path(conn, :show, report))
       end
     end
   end
 
   defp create_report(_) do
-    report = report_fixture(user_fixture())
-    %{report: report}
+    user = user_fixture()
+    report = report_fixture(user)
+    %{report: report, user: user}
   end
 end

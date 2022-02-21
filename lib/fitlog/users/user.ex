@@ -8,6 +8,7 @@ defmodule Fitlog.Users.User do
     field :email, :string
     field :avatar_url, :string
     field :handle, :string
+    field :github_id, :integer
     has_many :reports, Fitlog.Reports.Report
 
     timestamps()
@@ -15,12 +16,13 @@ defmodule Fitlog.Users.User do
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:handle, :email, :avatar_url])
-    |> validate_required([:handle, :email, :avatar_url])
+    |> cast(attrs, [:handle, :email, :avatar_url, :github_id])
+    |> validate_required([:handle, :email, :avatar_url, :github_id])
+    |> validate_number(:github_id, greater_than: 0)
     |> validate_length(:handle, min: 3, max: 15)
     |> validate_format(:email, ~r/@/)
     |> validate_format(:handle, ~r/^\w+$/)
-    |> unique_constraint(:email)
+    |> unique_constraint(:github_id)
     |> unique_constraint(:handle)
   end
 end
