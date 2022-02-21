@@ -16,10 +16,12 @@ defmodule Fitlog.Users do
   end
 
   def upsert(user) do
-    case get_by_handle(user.handle) do
-      nil -> User.changeset(%User{}, user) |> Repo.insert()
-      record -> {:ok, record}
-    end
+    Repo.insert(
+      User.changeset(%User{}, user),
+      on_conflict: :replace_all,
+      conflict_target: :github_id,
+      returning: true
+    )
   end
 
   def update(%User{} = user, attrs) do

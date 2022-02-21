@@ -21,7 +21,7 @@ defmodule Fitlog.UsersTest do
     end
 
     test "upsert/1 with valid data creates a user" do
-      valid_attrs = %{email: "email@domain.tld", handle: "ksevelyar", avatar_url: "babah"}
+      valid_attrs = %{email: "email@domain.tld", handle: "ksevelyar", avatar_url: "babah", github_id: 1}
 
       assert {:ok, %User{} = user} = Users.upsert(valid_attrs)
       assert user.email == "email@domain.tld"
@@ -38,7 +38,8 @@ defmodule Fitlog.UsersTest do
 
       update_attrs = %{
         email: "ksevelyar@domain.tld",
-        handle: "babaher"
+        handle: "babaher",
+        github_id: 42
       }
 
       assert {:ok, %User{} = user} = Users.update(user, update_attrs)

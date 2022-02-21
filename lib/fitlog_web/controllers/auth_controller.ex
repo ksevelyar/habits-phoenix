@@ -14,7 +14,8 @@ defmodule FitlogWeb.AuthController do
       Fitlog.Users.upsert(%{
         handle: auth.info.nickname,
         email: auth.info.email,
-        avatar_url: auth.info.image
+        avatar_url: auth.info.image,
+        github_id: auth.extra.raw_info.user["id"]
       })
 
     Guardian.Plug.sign_in(conn, user)
