@@ -37,7 +37,7 @@ defmodule Fitlog.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:guardian, "~> 2.0"},
       {:ueberauth_github, "~> 0.7"},
-      {:cors_plug, "~> 2.0"},
+      {:cors_plug, "~> 3.0"},
       {:bodyguard, "~> 2.4"}
     ]
   end

@@ -2,7 +2,6 @@ defmodule FitlogWeb.Router do
   use FitlogWeb, :router
 
   pipeline :auth do
-    plug CORSPlug, origin: [System.get_env("FRONT")]
     plug :accepts, ["json"]
     plug :fetch_session
     plug Fitlog.Users.Pipeline
