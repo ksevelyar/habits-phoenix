@@ -1,17 +1,4 @@
-# Fitlog [![ci](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml/badge.svg)](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml)
-
-* JSON API with CORS
-* JWT via https only cookie. The scheme requires the same top level domain for both front-end and back-end, which is small price for making JWT not readable by JS.
-* Bodyguard for authorization
-* Ueberauth for authentication
-* configuration via ENV variables
-
-## Boilerplate
-
-```
-mix archive.install hex phx_new
-mix phx.new fitlog-phoenix --app fitlog --no-assets --no-html --no-dashboard --no-gettext --no-live --no-mailer
-```
+# [Fitlog](https://github.com/rusty-cluster/styleguide/tree/main/elixir/phoenix) [![ci](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml/badge.svg)](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml)
 
 ## Setup
 
