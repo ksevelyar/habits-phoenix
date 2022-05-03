@@ -8,7 +8,8 @@ defmodule Fitlog.Reports.Report do
     field :calories, :integer
     field :carbs, :decimal
     field :date, :date
-    field :dumbbells, :decimal
+    field :dumbbell_sets, :integer
+    field :pullups, :integer
     field :fat, :decimal
     field :protein, :decimal
     field :stepper, :integer
@@ -31,23 +32,14 @@ defmodule Fitlog.Reports.Report do
       :stepper,
       :steps,
       :weight,
-      :dumbbells,
+      :dumbbell_sets,
+      :pullups,
       :protein,
       :fat,
       :carbs,
       :calories
     ])
-    |> validate_required([
-      :date,
-      :stepper,
-      :steps,
-      :weight,
-      :dumbbells,
-      :protein,
-      :fat,
-      :carbs,
-      :calories
-    ])
+    |> validate_required([:date])
     |> assoc_constraint(:user)
     |> unique_constraint([:user_id, :date])
   end

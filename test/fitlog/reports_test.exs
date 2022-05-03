@@ -17,7 +17,7 @@ defmodule Fitlog.ReportsTest do
       calories: nil,
       carbs: nil,
       date: nil,
-      dumbbells: nil,
+      dumbbell_sets: nil,
       fat: nil,
       protein: nil,
       stepper: nil,
@@ -40,7 +40,7 @@ defmodule Fitlog.ReportsTest do
         calories: 1200,
         carbs: "120.5",
         date: ~D[2022-01-16],
-        dumbbells: "120.5",
+        dumbbell_sets: 9,
         fat: "120.5",
         protein: "120.5",
         stepper: 42,
@@ -52,7 +52,7 @@ defmodule Fitlog.ReportsTest do
       assert report.calories == 1200
       assert report.carbs == Decimal.new("120.5")
       assert report.date == ~D[2022-01-16]
-      assert report.dumbbells == Decimal.new("120.5")
+      assert report.dumbbell_sets == 9
       assert report.fat == Decimal.new("120.5")
       assert report.protein == Decimal.new("120.5")
       assert report.stepper == 42
@@ -71,24 +71,24 @@ defmodule Fitlog.ReportsTest do
         calories: 600,
         carbs: "456.7",
         date: ~D[2022-01-17],
-        dumbbells: "456.7",
+        dumbbell_sets: 10,
         fat: "456.7",
         protein: "456.7",
-        stepper: 43,
-        steps: 43,
-        weight: "456.7"
+        stepper: 1000,
+        steps: 6000,
+        weight: "77.7"
       }
 
       assert {:ok, %Report{} = report} = Reports.update_report(report, update_attrs)
       assert report.calories == 600
       assert report.carbs == Decimal.new("456.7")
       assert report.date == ~D[2022-01-17]
-      assert report.dumbbells == Decimal.new("456.7")
+      assert report.dumbbell_sets == 10
       assert report.fat == Decimal.new("456.7")
       assert report.protein == Decimal.new("456.7")
-      assert report.stepper == 43
-      assert report.steps == 43
-      assert report.weight == Decimal.new("456.7")
+      assert report.stepper == 1000
+      assert report.steps == 6000
+      assert report.weight == Decimal.new("77.7")
     end
 
     test "update_report/2 with invalid data returns error changeset" do

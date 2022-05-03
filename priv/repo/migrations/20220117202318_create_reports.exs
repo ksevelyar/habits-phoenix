@@ -7,7 +7,8 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
       add :stepper, :integer
       add :steps, :integer
       add :weight, :decimal
-      add :dumbbells, :decimal
+      add :dumbbell_sets, :integer
+      add :pullups, :integer
       add :protein, :decimal
       add :fat, :decimal
       add :carbs, :decimal
