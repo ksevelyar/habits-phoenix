@@ -5,18 +5,19 @@ defmodule Fitlog.Reports.Report do
   @behaviour Bodyguard.Schema
 
   schema "reports" do
-    field :calories, :integer
-    field :carbs, :decimal
+    belongs_to :user, Fitlog.Users.User
     field :date, :date
-    field :dumbbell_sets, :integer
-    field :pullups, :integer
-    field :fat, :decimal
-    field :protein, :decimal
+
     field :stepper, :integer
     field :steps, :integer
     field :weight, :decimal
 
-    belongs_to :user, Fitlog.Users.User
+    field :dumbbell_sets, :integer
+    field :kettlebell_sets, :integer
+    field :pullups, :integer
+
+    field :protein_meals, :integer
+    field :fiber_meals, :integer
 
     timestamps()
   end
@@ -33,14 +34,13 @@ defmodule Fitlog.Reports.Report do
       :steps,
       :weight,
       :dumbbell_sets,
+      :kettlebell_sets,
       :pullups,
-      :protein,
-      :fat,
-      :carbs,
-      :calories
+      :protein_meals,
+      :fiber_meals,
     ])
     |> validate_required([:date])
     |> assoc_constraint(:user)
-    |> unique_constraint([:user_id, :date])
+    |> unique_constraint([:date, :user_id])
   end
 end

@@ -3,21 +3,23 @@ defmodule Fitlog.Repo.Migrations.CreateReports do
 
   def change do
     create table(:reports) do
+      add :user_id, references(:users, on_delete: :delete_all), null: false
       add :date, :date, null: false
+      add :weight, :decimal
+
       add :stepper, :integer
       add :steps, :integer
-      add :weight, :decimal
       add :dumbbell_sets, :integer
+      add :kettlebell_sets, :integer
       add :pullups, :integer
-      add :protein, :decimal
-      add :fat, :decimal
-      add :carbs, :decimal
-      add :calories, :integer
-      add :user_id, references(:users, on_delete: :delete_all), null: false
+
+      add :protein_meals, :integer
+      add :fiber_meals, :integer
 
       timestamps()
     end
 
     create index(:reports, [:user_id])
+    create unique_index(:reports, [:date, :user_id])
   end
 end

@@ -14,15 +14,15 @@ defmodule FitlogWeb.ReportView do
     %{
       id: report.id,
       date: report.date,
+      weight: report.weight,
       stepper: report.stepper,
       steps: report.steps,
-      weight: report.weight,
       dumbbell_sets: report.dumbbell_sets,
+      kettlebell_sets: report.kettlebell_sets,
       pullups: report.pullups,
-      protein: report.protein,
-      fat: report.fat,
-      carbs: report.carbs,
-      calories: report.calories
+      protein_meals: report.protein_meals,
+      fiber_meals: report.fiber_meals,
+      updated_at: report.updated_at
     }
   end
 end

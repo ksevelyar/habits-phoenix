@@ -7,40 +7,23 @@ defmodule FitlogWeb.ReportControllerTest do
   alias Fitlog.Reports.Report
 
   @create_attrs %{
-    calories: 1200,
-    carbs: "120.5",
     date: ~D[2022-01-16],
     dumbbell_sets: 9,
     pullups: 20,
-    fat: "120.5",
-    protein: "120.5",
     stepper: 42,
     steps: 42,
     weight: "120.5"
   }
   @update_attrs %{
-    calories: 1500,
-    carbs: "456.7",
     date: ~D[2022-01-17],
     dumbbell_sets: 10,
     pullups: 25,
-    fat: "456.7",
-    protein: "456.7",
     stepper: 43,
     steps: 43,
     weight: "456.7"
   }
   @invalid_attrs %{
-    calories: nil,
-    carbs: nil,
-    date: nil,
-    dumbbell_sets: nil,
-    pullups: nil,
-    fat: nil,
-    protein: nil,
-    stepper: nil,
-    steps: nil,
-    weight: nil
+    date: nil
   }
 
   defp login(conn, user) do
@@ -75,12 +58,8 @@ defmodule FitlogWeb.ReportControllerTest do
 
       assert %{
                "id" => ^id,
-               "calories" => 1200,
-               "carbs" => "120.5",
                "date" => "2022-01-16",
                "dumbbell_sets" => 9,
-               "fat" => "120.5",
-               "protein" => "120.5",
                "stepper" => 42,
                "steps" => 42,
                "weight" => "120.5"
@@ -113,12 +92,8 @@ defmodule FitlogWeb.ReportControllerTest do
 
       assert %{
                "id" => ^id,
-               "calories" => 1500,
-               "carbs" => "456.7",
                "date" => "2022-01-17",
                "dumbbell_sets" => 10,
-               "fat" => "456.7",
-               "protein" => "456.7",
                "stepper" => 43,
                "steps" => 43,
                "weight" => "456.7"

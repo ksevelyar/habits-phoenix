@@ -17,6 +17,11 @@ defmodule FitlogWeb.ReportController do
     render(conn, "index.json", reports: reports)
   end
 
+  def show(conn, %{"id" => id}) do
+    report = Reports.get_report!(id)
+    render(conn, "show.json", report: report)
+  end
+
   def create(conn, %{"report" => report_params}) do
     user = current_user(conn)
 
@@ -25,11 +30,6 @@ defmodule FitlogWeb.ReportController do
       |> put_status(:created)
       |> render("show.json", report: report)
     end
-  end
-
-  def show(conn, %{"id" => id}) do
-    report = Reports.get_report!(id)
-    render(conn, "show.json", report: report)
   end
 
   def update(conn, %{"id" => id, "report" => report_params}) do

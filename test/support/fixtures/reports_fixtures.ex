@@ -3,16 +3,15 @@ defmodule Fitlog.ReportsFixtures do
     report_attrs =
       attrs
       |> Enum.into(%{
-        calories: 1200,
-        carbs: "120.5",
         date: ~D[2022-01-16],
+        weight: "79.5",
+        stepper: 2000,
+        steps: 6000,
         dumbbell_sets: 3,
+        kettlebell_sets: 2,
         pullups: 10,
-        fat: "120.5",
-        protein: "120.5",
-        stepper: 42,
-        steps: 42,
-        weight: "120.5"
+        protein_meals: 3,
+        fiber_meals: 5
       })
 
     {:ok, report} = Fitlog.Reports.create_report(user, report_attrs)

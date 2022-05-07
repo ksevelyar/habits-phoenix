@@ -12,3 +12,5 @@
 ## Test
 
 Run tests with `iex -S mix test --trace` to use `require IEx; IEx.pry`
+
+Wipe test db with `MIX_ENV=test mix ecto.reset`
