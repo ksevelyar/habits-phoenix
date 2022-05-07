@@ -21,35 +21,43 @@ defmodule Fitlog.UsersTest do
     end
 
     test "upsert/1 with valid data creates a user" do
-      valid_attrs = %{email: "email@domain.tld", handle: "ksevelyar", avatar_url: "babah", github_id: 1}
+      valid_attrs = %{
+        email: "email@domain.tld",
+        handle: "ksevelyar",
+        avatar_url: "https://avatars.githubusercontent.com/u/725959?v=5",
+        github_id: 1
+      }
 
       assert {:ok, %User{} = user} = Users.upsert(valid_attrs)
       assert user.email == "email@domain.tld"
       assert user.handle == "ksevelyar"
-      assert user.avatar_url == "babah"
+      assert user.avatar_url == "https://avatars.githubusercontent.com/u/725959?v=5"
     end
 
     test "upsert/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Users.upsert(@invalid_attrs)
     end
 
-    test "update/2 with valid data updates the user" do
-      user = user_fixture()
+    test "upsert/1 with valid data updates the user" do
+      user_fixture()
 
       update_attrs = %{
         email: "ksevelyar@domain.tld",
         handle: "babaher",
+        avatar_url: "https://avatars.githubusercontent.com/u/725959?v=6",
         github_id: 42
       }
 
-      assert {:ok, %User{} = user} = Users.update(user, update_attrs)
+      assert {:ok, %User{} = user} = Users.upsert(update_attrs)
       assert user.email == "ksevelyar@domain.tld"
       assert user.handle == "babaher"
+      assert user.avatar_url == "https://avatars.githubusercontent.com/u/725959?v=6"
+      assert user.github_id == 42
     end
 
-    test "update_user/2 with invalid data returns error changeset" do
+    test "upsert/1 with invalid data returns error changeset for update" do
       user = user_fixture()
-      assert {:error, %Ecto.Changeset{}} = Users.update(user, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Users.upsert(@invalid_attrs)
       assert user == Users.get!(user.id)
     end
 

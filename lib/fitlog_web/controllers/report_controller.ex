@@ -25,20 +25,10 @@ defmodule FitlogWeb.ReportController do
   def create(conn, %{"report" => report_params}) do
     user = current_user(conn)
 
-    with {:ok, %Report{} = report} <- Reports.create_report(user, report_params) do
+    with {:ok, %Report{} = report} <- Reports.upsert(user, report_params) do
       conn
       |> put_status(:created)
       |> render("show.json", report: report)
-    end
-  end
-
-  def update(conn, %{"id" => id, "report" => report_params}) do
-    user = current_user(conn)
-    report = Reports.get_report!(id)
-
-    with :ok <- Bodyguard.permit(Fitlog.Reports, :update, user, report),
-         {:ok, %Report{} = report} <- Reports.update_report(report, report_params) do
-      render(conn, "show.json", report: report)
     end
   end
 

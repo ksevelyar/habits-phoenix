@@ -36,7 +36,7 @@ defmodule Fitlog.ReportsTest do
         weight: "120.5"
       }
 
-      assert {:ok, %Report{} = report} = Reports.create_report(user_fixture(), valid_attrs)
+      assert {:ok, %Report{} = report} = Reports.upsert(user_fixture(), valid_attrs)
       assert report.date == ~D[2022-01-16]
       assert report.dumbbell_sets == 9
       assert report.stepper == 42
@@ -45,11 +45,11 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "create_report/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Reports.create_report(user_fixture(), @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Reports.upsert(user_fixture(), @invalid_attrs)
     end
 
     test "update_report/2 with valid data updates the report" do
-      {report, _user} = report_with_user()
+      {_report, user} = report_with_user()
 
       update_attrs = %{
         date: ~D[2022-01-17],
@@ -59,7 +59,7 @@ defmodule Fitlog.ReportsTest do
         weight: "77.7"
       }
 
-      assert {:ok, %Report{} = report} = Reports.update_report(report, update_attrs)
+      assert {:ok, %Report{} = report} = Reports.upsert(user, update_attrs)
       assert report.date == ~D[2022-01-17]
       assert report.dumbbell_sets == 10
       assert report.stepper == 1000

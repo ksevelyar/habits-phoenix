@@ -12,10 +12,15 @@ defmodule Fitlog.Reports do
 
   def get_report!(id), do: Repo.get!(Report, id)
 
-  def create_report(user, attrs) do
-    Ecto.build_assoc(user, :reports)
-    |> change_report(attrs)
-    |> Repo.insert()
+  def upsert(user, attrs) do
+    report_changeset = Ecto.build_assoc(user, :reports) |> change_report(attrs)
+
+    Repo.insert(
+      report_changeset,
+      on_conflict: {:replace_all_except, [:id, :inserted_at]},
+      conflict_target: [:user_id, :date],
+      returning: true
+    )
   end
 
   def update_report(%Report{} = report, attrs) do

@@ -14,7 +14,7 @@ defmodule Fitlog.ReportsFixtures do
         fiber_meals: 5
       })
 
-    {:ok, report} = Fitlog.Reports.create_report(user, report_attrs)
+    {:ok, report} = Fitlog.Reports.upsert(user, report_attrs)
     report
   end
 end

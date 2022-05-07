@@ -15,7 +15,7 @@ defmodule FitlogWeb.ReportControllerTest do
     weight: "120.5"
   }
   @update_attrs %{
-    date: ~D[2022-01-17],
+    date: ~D[2022-01-16],
     dumbbell_sets: 10,
     pullups: 25,
     stepper: 43,
@@ -78,21 +78,19 @@ defmodule FitlogWeb.ReportControllerTest do
 
     test "renders report when data is valid", %{
       conn: conn,
-      report: %Report{id: id} = report,
+      report: %Report{id: id} = _report,
       user: user
     } do
       conn_with_user = login(conn, user)
 
-      report =
-        put(conn_with_user, Routes.report_path(conn, :update, report), report: @update_attrs)
-
-      assert %{"id" => ^id} = json_response(report, 200)["data"]
+      report = post(conn_with_user, Routes.report_path(conn, :create), report: @update_attrs)
+      assert %{"id" => ^id} = json_response(report, 201)["data"]
 
       conn = get(conn_with_user, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
-               "date" => "2022-01-17",
+               "date" => "2022-01-16",
                "dumbbell_sets" => 10,
                "stepper" => 43,
                "steps" => 43,
@@ -100,11 +98,10 @@ defmodule FitlogWeb.ReportControllerTest do
              } = json_response(conn, 200)["data"]
     end
 
-    test "renders errors when data is invalid", %{conn: conn, report: report, user: user} do
+    test "renders errors when data is invalid", %{conn: conn, user: user} do
       conn_with_user = login(conn, user)
 
-      conn =
-        put(conn_with_user, Routes.report_path(conn, :update, report), report: @invalid_attrs)
+      conn = post(conn_with_user, Routes.report_path(conn, :create), report: @invalid_attrs)
 
       assert json_response(conn, 422)["errors"] != %{}
     end

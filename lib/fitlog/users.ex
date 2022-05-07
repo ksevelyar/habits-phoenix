@@ -18,16 +18,10 @@ defmodule Fitlog.Users do
   def upsert(user) do
     Repo.insert(
       User.changeset(%User{}, user),
-      on_conflict: :replace_all,
+      on_conflict: {:replace_all_except, [:id, :inserted_at]},
       conflict_target: :github_id,
       returning: true
     )
-  end
-
-  def update(%User{} = user, attrs) do
-    user
-    |> User.changeset(attrs)
-    |> Repo.update()
   end
 
   def delete(%User{} = user) do
