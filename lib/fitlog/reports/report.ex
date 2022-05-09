@@ -1,7 +1,9 @@
 defmodule Fitlog.Reports.Report do
   use Ecto.Schema
   import Ecto.Changeset
-  import Ecto.Query, only: [from: 2]
+  import Ecto.Query
+  alias Fitlog.Repo
+  alias Fitlog.Reports.Report
   @behaviour Bodyguard.Schema
 
   schema "reports" do
@@ -26,6 +28,13 @@ defmodule Fitlog.Reports.Report do
     from reports in query, where: reports.user_id == ^user_id
   end
 
+  def today_report(user) do
+    today = Date.utc_today()
+    query = from reports in Report, where: reports.date == ^today
+
+    query |> Bodyguard.scope(user) |> first |> Repo.one()
+  end
+
   def changeset(report, attrs) do
     report
     |> cast(attrs, [
@@ -37,7 +46,7 @@ defmodule Fitlog.Reports.Report do
       :kettlebell_sets,
       :pullups,
       :protein_meals,
-      :fiber_meals,
+      :fiber_meals
     ])
     |> validate_required([:date])
     |> assoc_constraint(:user)

@@ -10,6 +10,10 @@ defmodule Fitlog.Reports do
     |> Repo.all()
   end
 
+  def today_report(user) do
+    Report.today_report(user)
+  end
+
   def get_report!(id), do: Repo.get!(Report, id)
 
   def upsert(user, attrs) do
@@ -21,12 +25,6 @@ defmodule Fitlog.Reports do
       conflict_target: [:user_id, :date],
       returning: true
     )
-  end
-
-  def update_report(%Report{} = report, attrs) do
-    report
-    |> Report.changeset(attrs)
-    |> Repo.update()
   end
 
   def delete_report(%Report{} = report) do

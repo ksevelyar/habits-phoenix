@@ -68,8 +68,8 @@ defmodule Fitlog.ReportsTest do
     end
 
     test "update_report/2 with invalid data returns error changeset" do
-      {report, _user} = report_with_user()
-      assert {:error, %Ecto.Changeset{}} = Reports.update_report(report, @invalid_attrs)
+      {report, user} = report_with_user()
+      assert {:error, %Ecto.Changeset{}} = Reports.upsert(user, @invalid_attrs)
       assert report == Reports.get_report!(report.id)
     end
 

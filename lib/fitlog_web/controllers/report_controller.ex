@@ -17,8 +17,10 @@ defmodule FitlogWeb.ReportController do
     render(conn, "index.json", reports: reports)
   end
 
-  def show(conn, %{"id" => id}) do
-    report = Reports.get_report!(id)
+  def show(conn, _params) do
+    user = current_user(conn)
+    report = Reports.today_report(user)
+
     render(conn, "show.json", report: report)
   end
 

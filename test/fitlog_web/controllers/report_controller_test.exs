@@ -52,18 +52,13 @@ defmodule FitlogWeb.ReportControllerTest do
       conn_with_user = login(conn, user_fixture())
       report = post(conn_with_user, Routes.report_path(conn, :create), report: @create_attrs)
 
-      assert %{"id" => id} = json_response(report, 201)["data"]
-
-      conn = get(conn_with_user, Routes.report_path(conn, :show, id))
-
       assert %{
-               "id" => ^id,
                "date" => "2022-01-16",
                "dumbbell_sets" => 9,
                "stepper" => 42,
                "steps" => 42,
                "weight" => "120.5"
-             } = json_response(conn, 200)["data"]
+             } = json_response(report, 201)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -84,9 +79,6 @@ defmodule FitlogWeb.ReportControllerTest do
       conn_with_user = login(conn, user)
 
       report = post(conn_with_user, Routes.report_path(conn, :create), report: @update_attrs)
-      assert %{"id" => ^id} = json_response(report, 201)["data"]
-
-      conn = get(conn_with_user, Routes.report_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
@@ -95,7 +87,7 @@ defmodule FitlogWeb.ReportControllerTest do
                "stepper" => 43,
                "steps" => 43,
                "weight" => "456.7"
-             } = json_response(conn, 200)["data"]
+             } = json_response(report, 201)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
@@ -115,10 +107,6 @@ defmodule FitlogWeb.ReportControllerTest do
 
       delete_conn = delete(conn_with_user, Routes.report_path(conn, :delete, report))
       assert response(delete_conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn_with_user, Routes.report_path(conn, :show, report))
-      end
     end
   end
 
