@@ -17,7 +17,8 @@ defmodule FitlogWeb.Router do
     pipe_through :auth
 
     get "/user", UserController, :show
-    resources "/reports", ReportController, except: [:new, :edit]
+    resources "/reports", ReportController, except: [:new, :edit, :show]
+    get "/report", ReportController, :show
   end
 
   scope "/auth", FitlogWeb do
