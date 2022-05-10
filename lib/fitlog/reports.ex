@@ -5,9 +5,7 @@ defmodule Fitlog.Reports do
   defdelegate authorize(action, user, params), to: Fitlog.Reports.Policy
 
   def list_user_reports(user) do
-    Report
-    |> Bodyguard.scope(user)
-    |> Repo.all()
+    Report.list_user_reports(user)
   end
 
   def today_report(user) do
