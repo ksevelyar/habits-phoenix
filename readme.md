@@ -2,8 +2,11 @@
 
 ## Setup
 
-`mix deps.get`
-`mix ecto.setup`
+* `direnv allow`
+* `mix deps.get`
+* `mix ecto.setup`
+
+## Run
 
 `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
