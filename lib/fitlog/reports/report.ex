@@ -28,8 +28,8 @@ defmodule Fitlog.Reports.Report do
     from reports in query, where: reports.user_id == ^user_id
   end
 
-  def list_user_reports(user) do
-    from(r in Report, order_by: [desc: r.date])
+  def list_user_reports(user, limit) do
+    from(r in Report, order_by: [desc: r.date], limit: ^limit)
     |> Bodyguard.scope(user)
     |> Repo.all()
   end
