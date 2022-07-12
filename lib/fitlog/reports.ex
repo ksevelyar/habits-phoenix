@@ -4,8 +4,8 @@ defmodule Fitlog.Reports do
 
   defdelegate authorize(action, user, params), to: Fitlog.Reports.Policy
 
-  def list_user_reports(user) do
-    Report.list_user_reports(user)
+  def list_user_reports(user, limit) do
+    Report.list_user_reports(user, limit)
   end
 
   def today_report(user) do

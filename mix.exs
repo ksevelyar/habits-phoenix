@@ -38,7 +38,8 @@ defmodule Fitlog.MixProject do
       {:guardian, "~> 2.0"},
       {:ueberauth_github, "~> 0.7"},
       {:cors_plug, "~> 3.0"},
-      {:bodyguard, "~> 2.4"}
+      {:bodyguard, "~> 2.4"},
+      {:ex_machina, "~> 2.7.0", only: :test}
     ]
   end
 

@@ -2,7 +2,10 @@ defmodule Fitlog.ReportsTest do
   use Fitlog.DataCase
 
   import Fitlog.UsersFixtures
+
+  # FIXME: replace fixtures with factories
   import Fitlog.ReportsFixtures
+  import Fitlog.Factory
 
   defp report_with_user do
     user = user_fixture()
@@ -17,9 +20,16 @@ defmodule Fitlog.ReportsTest do
       date: nil
     }
 
-    test "list_user_reports/1 returns user reports" do
+    test "list_user_reports/2 returns user reports" do
       {report, user} = report_with_user()
-      assert Reports.list_user_reports(user) == [report]
+      assert Reports.list_user_reports(user, 1) == [report]
+    end
+
+    test "list_user_reports/2 returns reports for two weeks" do
+      user = user_fixture()
+      insert_list(21, :report, user: user)
+
+      assert Reports.list_user_reports(user, 14) |> Enum.count() == 14
     end
 
     test "get_report!/1 returns the report with given id" do

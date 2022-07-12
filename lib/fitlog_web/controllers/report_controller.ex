@@ -12,7 +12,8 @@ defmodule FitlogWeb.ReportController do
 
   def index(conn, _params) do
     user = current_user(conn)
-    reports = Reports.list_user_reports(user)
+    two_weeks = 14
+    reports = Reports.list_user_reports(user, two_weeks)
 
     render(conn, "index.json", reports: reports)
   end
