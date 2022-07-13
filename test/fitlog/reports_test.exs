@@ -2,14 +2,13 @@ defmodule Fitlog.ReportsTest do
   use Fitlog.DataCase
 
   import Fitlog.UsersFixtures
-
-  # FIXME: replace fixtures with factories
-  import Fitlog.ReportsFixtures
   import Fitlog.Factory
 
   defp report_with_user do
     user = user_fixture()
-    {report_fixture(user), user}
+    report = insert(:report, user_id: user.id)
+
+    {report, user}
   end
 
   describe "reports" do

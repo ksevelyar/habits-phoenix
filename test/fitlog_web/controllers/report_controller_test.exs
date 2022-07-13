@@ -1,10 +1,8 @@
 defmodule FitlogWeb.ReportControllerTest do
   use FitlogWeb.ConnCase
 
-  import Fitlog.ReportsFixtures
   import Fitlog.UsersFixtures
-
-  alias Fitlog.Reports.Report
+  import Fitlog.Factory
 
   @create_attrs %{
     date: ~D[2022-01-16],
@@ -73,7 +71,6 @@ defmodule FitlogWeb.ReportControllerTest do
 
     test "renders report when data is valid", %{
       conn: conn,
-      report: %Report{id: id} = _report,
       user: user
     } do
       conn_with_user = login(conn, user)
@@ -81,7 +78,6 @@ defmodule FitlogWeb.ReportControllerTest do
       report = post(conn_with_user, Routes.report_path(conn, :create), report: @update_attrs)
 
       assert %{
-               "id" => ^id,
                "date" => "2022-01-16",
                "dumbbell_sets" => 10,
                "stepper" => 43,
@@ -112,7 +108,8 @@ defmodule FitlogWeb.ReportControllerTest do
 
   defp create_report(_) do
     user = user_fixture()
-    report = report_fixture(user)
+    report = insert(:report, user: user)
+
     %{report: report, user: user}
   end
 end
