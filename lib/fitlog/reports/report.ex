@@ -10,6 +10,7 @@ defmodule Fitlog.Reports.Report do
     belongs_to :user, Fitlog.Users.User
     field :date, :date
 
+    field :sleep, :integer
     field :stepper, :integer
     field :steps, :integer
     field :weight, :decimal
@@ -45,6 +46,7 @@ defmodule Fitlog.Reports.Report do
     report
     |> cast(attrs, [
       :date,
+      :sleep,
       :stepper,
       :steps,
       :weight,

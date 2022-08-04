@@ -14,6 +14,7 @@ defmodule FitlogWeb.ReportView do
     %{
       id: report.id,
       date: report.date,
+      sleep: report.sleep,
       weight: report.weight,
       stepper: report.stepper,
       steps: report.steps,
