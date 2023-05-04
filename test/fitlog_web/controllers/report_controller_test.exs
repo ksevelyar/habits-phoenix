@@ -6,7 +6,6 @@ defmodule FitlogWeb.ReportControllerTest do
 
   @create_attrs %{
     date: ~D[2022-01-16],
-    dumbbell_sets: 9,
     pullups: 20,
     stepper: 42,
     steps: 42,
@@ -14,7 +13,6 @@ defmodule FitlogWeb.ReportControllerTest do
   }
   @update_attrs %{
     date: ~D[2022-01-16],
-    dumbbell_sets: 10,
     pullups: 25,
     stepper: 43,
     steps: 43,
@@ -52,7 +50,6 @@ defmodule FitlogWeb.ReportControllerTest do
 
       assert %{
                "date" => "2022-01-16",
-               "dumbbell_sets" => 9,
                "stepper" => 42,
                "steps" => 42,
                "weight" => "120.5"
@@ -79,7 +76,6 @@ defmodule FitlogWeb.ReportControllerTest do
 
       assert %{
                "date" => "2022-01-16",
-               "dumbbell_sets" => 10,
                "stepper" => 43,
                "steps" => 43,
                "weight" => "456.7"

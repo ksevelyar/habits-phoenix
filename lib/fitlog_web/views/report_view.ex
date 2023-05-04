@@ -18,7 +18,6 @@ defmodule FitlogWeb.ReportView do
       weight: report.weight,
       stepper: report.stepper,
       steps: report.steps,
-      dumbbell_sets: report.dumbbell_sets,
       kettlebell_sets: report.kettlebell_sets,
       pullups: report.pullups,
       protein_meals: report.protein_meals,

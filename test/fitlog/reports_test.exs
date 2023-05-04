@@ -39,7 +39,6 @@ defmodule Fitlog.ReportsTest do
     test "create_report/1 with valid data creates a report" do
       valid_attrs = %{
         date: ~D[2022-01-16],
-        dumbbell_sets: 9,
         stepper: 42,
         steps: 42,
         weight: "120.5"
@@ -47,7 +46,6 @@ defmodule Fitlog.ReportsTest do
 
       assert {:ok, %Report{} = report} = Reports.upsert(user_fixture(), valid_attrs)
       assert report.date == ~D[2022-01-16]
-      assert report.dumbbell_sets == 9
       assert report.stepper == 42
       assert report.steps == 42
       assert report.weight == Decimal.new("120.5")
@@ -62,7 +60,6 @@ defmodule Fitlog.ReportsTest do
 
       update_attrs = %{
         date: ~D[2022-01-17],
-        dumbbell_sets: 10,
         stepper: 1000,
         steps: 6000,
         weight: "77.7"
@@ -70,7 +67,6 @@ defmodule Fitlog.ReportsTest do
 
       assert {:ok, %Report{} = report} = Reports.upsert(user, update_attrs)
       assert report.date == ~D[2022-01-17]
-      assert report.dumbbell_sets == 10
       assert report.stepper == 1000
       assert report.steps == 6000
       assert report.weight == Decimal.new("77.7")

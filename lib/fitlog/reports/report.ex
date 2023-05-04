@@ -15,7 +15,6 @@ defmodule Fitlog.Reports.Report do
     field :steps, :integer
     field :weight, :decimal
 
-    field :dumbbell_sets, :integer
     field :kettlebell_sets, :integer
     field :pullups, :integer
 
@@ -50,7 +49,6 @@ defmodule Fitlog.Reports.Report do
       :stepper,
       :steps,
       :weight,
-      :dumbbell_sets,
       :kettlebell_sets,
       :pullups,
       :protein_meals,
