@@ -1,4 +1,4 @@
-# Habits
+# [Fitlog](https://github.com/rusty-cluster/styleguide/tree/main/elixir/phoenix) [![ci](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml/badge.svg)](https://github.com/ksevelyar/fitlog-phoenix/actions/workflows/ci.yml)
 
 ## Setup
 

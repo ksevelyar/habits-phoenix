@@ -7,33 +7,36 @@
 # General application configuration
 import Config
 
-config :fitlog,
-  ecto_repos: [Fitlog.Repo]
+config :habits,
+  ecto_repos: [Habits.Repo],
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
-config :fitlog, FitlogWeb.Endpoint,
+config :habits, HabitsWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: FitlogWeb.ErrorView, accepts: ~w(json), layout: false],
-  pubsub_server: Fitlog.PubSub
+  adapter: Bandit.PhoenixAdapter,
+  render_errors: [
+    formats: [json: HabitsWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: Habits.PubSub,
+  live_view: [signing_salt: "NxnGOWaA"]
 
-config :fitlog, Fitlog.Users.Guardian,
-  issuer: "fitlog",
-  secret_key: "mix guardian.gen.secret"
+# Configures the mailer
+#
+# By default it uses the "Local" adapter which stores the emails
+# locally. You can see the emails in your browser, at "/dev/mailbox".
+#
+# For production it's recommended to configure a different adapter
+# at the `config/runtime.exs`.
+config :habits, Habits.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :ueberauth, Ueberauth,
-  providers: [
-    github: {Ueberauth.Strategy.Github, [default_scope: "user:email"]}
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Github.OAuth,
-  client_id: System.get_env("GITHUB_CLIENT_ID"),
-  client_secret: System.get_env("GITHUB_CLIENT_SECRET")
-
+# Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
