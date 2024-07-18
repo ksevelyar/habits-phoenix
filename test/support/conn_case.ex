@@ -17,6 +17,8 @@ defmodule HabitsWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  alias Habits.Factory
+
   using do
     quote do
       # The default endpoint for testing
@@ -34,5 +36,18 @@ defmodule HabitsWeb.ConnCase do
   setup tags do
     Habits.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+  end
+
+  def register_and_log_in_user(%{conn: conn}) do
+    user = Factory.insert!(:user)
+    %{conn: log_in_user(conn, user), user: user}
+  end
+
+  def log_in_user(conn, user) do
+    token = Habits.Users.generate_session_token(user)
+
+    conn
+    |> Phoenix.ConnTest.init_test_session(%{})
+    |> Plug.Conn.put_session(:user_token, token)
   end
 end
