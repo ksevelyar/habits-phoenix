@@ -3,10 +3,14 @@ defmodule HabitsWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
-  scope "/api", HabitsWeb do
+  scope "/", HabitsWeb do
     pipe_through :api
+
+    resources "/users", UserController, only: [:create, :update, :show]
+    resources "/sessions", SessionController, only: [:create, :delete], singleton: true
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
