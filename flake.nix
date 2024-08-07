@@ -1,5 +1,5 @@
 {
-  description = "market-elixir";
+  description = "habits-elixir";
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
   outputs = {
@@ -17,18 +17,18 @@
         buildInputs = [
           elixir
           pkgs.elixir_ls
-
           pkgs.inotify-tools
         ];
 
         hooks = ''
-          # this allows mix to work on the local directory
           mkdir -p .nix-mix .nix-hex
           export MIX_HOME=$PWD/.nix-mix
           export HEX_HOME=$PWD/.nix-mix
           export PATH=$MIX_HOME/bin:$HEX_HOME/bin:$PATH
 
-          export ERL_AFLAGS="-kernel shell_history enabled"
+          mix local.hex --force
+
+          export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_path '\"$PWD/.erlang-history\"'"
         '';
       };
     });

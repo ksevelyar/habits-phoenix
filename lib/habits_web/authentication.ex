@@ -48,7 +48,7 @@ defmodule HabitsWeb.Authentication do
   Authenticates the user by looking into the session
   and remember me token.
   """
-  def fetch_current(conn, _opts) do
+  def fetch_current_user(conn, _opts) do
     {token, conn} = ensure_token(conn)
     user = token && Users.get_by_session_token(token)
     assign(conn, :current_user, user)
@@ -76,7 +76,7 @@ defmodule HabitsWeb.Authentication do
     if conn.assigns[:current_user] do
       conn
     else
-      conn |> send_resp(401, "Unauthorized") |> halt()
+      conn |> put_status(:unauthorized) |> halt()
     end
   end
 end
