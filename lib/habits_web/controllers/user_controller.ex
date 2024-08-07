@@ -21,18 +21,13 @@ defmodule HabitsWeb.UserController do
     end
   end
 
-  def show(conn, _params) do
-    conn = Authentication.fetch_current(conn, [])
+  def show(conn, %{"id" => id}) do
+    user = Users.get_user!(id)
 
-    if conn.assigns.current_user do
-      render(conn, :show, user: conn.assigns.current_user)
-    else
-      send_resp(conn, :not_found, "")
-    end
+    render(conn, :show, user: user)
   end
 
   def update(conn, %{"user" => user_params}) do
-    Authentication.fetch_current(conn, [])
     user = conn.assigns.current_user
 
     if user do
@@ -45,7 +40,6 @@ defmodule HabitsWeb.UserController do
   end
 
   def delete(conn) do
-    Authentication.fetch_current(conn, [])
     user = conn.assigns.current_user
 
     if user do

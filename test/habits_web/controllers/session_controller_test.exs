@@ -7,7 +7,7 @@ defmodule HabitsWeb.SessionControllerTest do
     %{user: insert!(:user, password: "secure🐗password")}
   end
 
-  describe "POST /users/log_in" do
+  describe "POST /sessions" do
     test "logs the user in", %{conn: conn, user: user} do
       conn =
         conn
@@ -18,9 +18,8 @@ defmodule HabitsWeb.SessionControllerTest do
 
       assert get_session(conn, :user_token)
 
-      conn = get(conn, ~p"/users/show")
-      response = json_response(conn, 200)
-      assert %{"handle" => user.handle, "email" => user.email, "id" => user.id, "confirmed_at" => nil} == response
+      response = json_response(conn, 201)
+      assert %{"handle" => user.handle, "email" => user.email, "id" => user.id} == response
     end
 
     test "logs the user in with remember me", %{conn: conn, user: user} do
@@ -50,7 +49,16 @@ defmodule HabitsWeb.SessionControllerTest do
     end
   end
 
-  describe "DELETE /users/log_out" do
+  describe "GET /sessions/" do
+    test "logs the user out", %{conn: conn, user: user} do
+      conn = conn |> init_test_session([]) |> log_in_user(user) |> get(~p"/sessions")
+
+      response = json_response(conn, 200)
+      assert %{"handle" => user.handle, "email" => user.email, "id" => user.id} == response
+    end
+  end
+
+  describe "DELETE /sessions" do
     test "logs the user out", %{conn: conn, user: user} do
       conn = conn |> init_test_session([]) |> log_in_user(user) |> delete(~p"/sessions")
 

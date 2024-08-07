@@ -9,6 +9,15 @@ defmodule Habits.Factory do
     }
   end
 
+  def build(:chain) do
+    %Habits.Chains.Chain{
+      name: "elixir",
+      active: true,
+      type: :integer,
+      description: "pomodoro",
+    }
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct!(attributes)
   end

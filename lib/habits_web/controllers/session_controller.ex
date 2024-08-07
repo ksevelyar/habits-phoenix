@@ -21,8 +21,6 @@ defmodule HabitsWeb.SessionController do
   end
 
   def show(conn, _params) do
-    conn = Authentication.fetch_current(conn, [])
-
     if conn.assigns.current_user do
       render(conn, :show, user: conn.assigns.current_user)
     else
