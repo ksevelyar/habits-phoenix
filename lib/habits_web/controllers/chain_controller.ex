@@ -18,6 +18,12 @@ defmodule HabitsWeb.ChainController do
     end
   end
 
+  def show(conn, %{"id" => id}) do
+    chain = Chains.get_chain!(conn.assigns.current_user.id, id)
+
+    render(conn, :show, chain: chain)
+  end
+
   def update(conn, %{"id" => id, "chain" => chain_params}) do
     chain = Chains.get_chain!(conn.assigns.current_user.id, id)
 

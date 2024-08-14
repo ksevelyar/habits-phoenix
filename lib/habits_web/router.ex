@@ -4,11 +4,11 @@ defmodule HabitsWeb.Router do
   import HabitsWeb.Authentication, only: [fetch_current_user: 2, require_authenticated_user: 2]
 
   pipeline :api do
+    plug :fetch_session
     plug :accepts, ["json"]
   end
 
   pipeline :user_api do
-    plug :fetch_session
     plug :fetch_current_user
     plug :require_authenticated_user
   end
@@ -26,7 +26,8 @@ defmodule HabitsWeb.Router do
     resources "/users", UserController, only: [:update, :show]
     resources "/sessions", SessionController, only: [:delete, :show], singleton: true
 
-    resources "/chains", ChainController, except: [:new, :edit]
+    resources "/chains", ChainController, only: [:show, :index, :create, :update, :delete]
+    resources "/metrics", MetricController, only: [:index, :create, :delete]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
