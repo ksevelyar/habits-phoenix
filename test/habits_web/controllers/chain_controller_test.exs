@@ -4,7 +4,7 @@ defmodule HabitsWeb.ChainControllerTest do
   import Habits.Factory
 
   setup %{conn: conn} do
-    user = insert!(:user, password: "secure🐗password")
+    user = insert!(:user)
     conn = conn |> init_test_session([]) |> log_in_user(user)
 
     %{user: user, conn: conn}
@@ -16,7 +16,9 @@ defmodule HabitsWeb.ChainControllerTest do
 
       conn = get(conn, ~p"/chains")
 
-      assert [%{"active" => true, "id" => _, "name" => "elixir", "type" => "integer"}] = json_response(conn, 200)["data"]
+      assert [
+        %{"active" => true, "id" => _, "name" => "elixir", "type" => "integer"}
+      ] = json_response(conn, 200)
     end
   end
 
@@ -30,7 +32,7 @@ defmodule HabitsWeb.ChainControllerTest do
       }
  
       conn = post(conn, ~p"/chains", chain: chain_attrs)
-      assert %{"id" => _id} = json_response(conn, 201)["data"]
+      assert %{"id" => _id} = json_response(conn, 201)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -60,14 +62,12 @@ defmodule HabitsWeb.ChainControllerTest do
                "active" => false,
                "name" => "pullups",
                "type" => "integer"
-             } = json_response(conn, 200)["data"]
+             } = json_response(conn, 200)
     end
 
     test "renders errors when data is invalid", %{conn: conn, user: user} do
       chain = insert!(:chain, user: user)
-      chain_attrs = %{
-        "name" => "",
-      }
+      chain_attrs = %{"name" => ""}
 
       conn = put(conn, ~p"/chains/#{chain.id}", chain: chain_attrs)
       assert json_response(conn, 422)["errors"] != %{}

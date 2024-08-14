@@ -18,6 +18,13 @@ defmodule Habits.Factory do
     }
   end
 
+  def build(:metric) do
+    %Habits.Metrics.Metric{
+      value: 42,
+      date: ~D[2024-09-07],
+    }
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct!(attributes)
   end

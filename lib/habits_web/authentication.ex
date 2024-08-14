@@ -2,6 +2,7 @@ defmodule HabitsWeb.Authentication do
   use HabitsWeb, :verified_routes
 
   import Plug.Conn
+  import Phoenix.Controller
 
   alias Habits.Users
 
@@ -76,7 +77,10 @@ defmodule HabitsWeb.Authentication do
     if conn.assigns[:current_user] do
       conn
     else
-      conn |> put_status(:unauthorized) |> halt()
+      conn
+      |> put_status(:unauthorized)
+      |> json(%{error: "unauthorized"})
+      |> halt()
     end
   end
 end

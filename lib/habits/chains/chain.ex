@@ -2,6 +2,7 @@ defmodule Habits.Chains.Chain do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:name, :id]}
   schema "chains" do
     field :active, :boolean, default: true
     field :name, :string
@@ -9,13 +10,14 @@ defmodule Habits.Chains.Chain do
     field :description, :string
 
     belongs_to :user, Habits.Users.User
+    has_many :metrics, Habits.Metrics.Metric
 
     timestamps(type: :utc_datetime)
   end
 
   def changeset(chain, attrs) do
     chain
-    |> cast(attrs, [:name, :type, :active])
+    |> cast(attrs, [:name, :type, :active, :description])
     |> validate_required([:name, :type, :active])
   end
 end

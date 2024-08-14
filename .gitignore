@@ -26,3 +26,5 @@ erl_crash.dump
 habits-*.tar
 
 .direnv
+.nix-mix
+.erlang-history
