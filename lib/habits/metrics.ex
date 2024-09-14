@@ -23,6 +23,20 @@ defmodule Habits.Metrics do
     end
   end
 
+  def history(user_id) do
+    two_weeks_ago = Date.utc_today() |> Date.add(-14)
+
+    query = from m in Metric,
+      join: c in assoc(m, :chain),
+      where: m.date >= ^two_weeks_ago,
+      where: c.active == true,
+      where: c.user_id == ^user_id,
+      order_by: [asc: m.date, asc: c.id],
+      preload: [:chain]
+
+    Repo.all(query)
+  end
+
   def upsert(chain, attrs) do
     metric_changeset =
       chain

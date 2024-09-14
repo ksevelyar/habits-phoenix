@@ -28,6 +28,7 @@ defmodule HabitsWeb.Router do
 
     resources "/chains", ChainController, only: [:show, :index, :create, :update, :delete]
     resources "/metrics", MetricController, only: [:index, :create, :delete]
+    resources "/metrics_history", MetricsHistoryController, only: [:index, :create, :delete]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
