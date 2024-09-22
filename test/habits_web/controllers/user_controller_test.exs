@@ -15,7 +15,9 @@ defmodule HabitsWeb.UserControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert %{"id" => _id, "email" => "some@email", "handle" => "=user="} = json_response(conn, 201)
+
+      assert %{"id" => _id, "email" => "some@email", "handle" => "=user="} =
+               json_response(conn, 201)
     end
 
     test "render errors for invalid data", %{conn: conn} do

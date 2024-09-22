@@ -26,7 +26,7 @@ defmodule HabitsWeb.MetricControllerTest do
   describe "create metric" do
     test "renders metric when data is valid", %{conn: conn, chain: chain} do
       metric_attrs = %{
-        "value" => 42,
+        "value" => "42",
         "date" => "2024-09-07",
         "chain_id" => chain.id
       }
@@ -49,7 +49,7 @@ defmodule HabitsWeb.MetricControllerTest do
       id = metric.id
 
       update_attrs = %{
-        "value" => 42,
+        "value" => "42",
         "date" => "2024-09-07",
         "chain_id" => chain.id
       }

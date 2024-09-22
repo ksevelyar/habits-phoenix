@@ -2,7 +2,7 @@ defmodule Habits.Chains.Chain do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @derive {Jason.Encoder, only: [:name, :id]}
+  @derive {Jason.Encoder, only: [:name, :id, :type]}
   schema "chains" do
     field :active, :boolean, default: true
     field :name, :string
