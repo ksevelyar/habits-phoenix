@@ -17,8 +17,8 @@ defmodule HabitsWeb.ChainControllerTest do
       conn = get(conn, ~p"/chains")
 
       assert [
-        %{"active" => true, "id" => _, "name" => "elixir", "type" => "integer"}
-      ] = json_response(conn, 200)
+               %{"active" => true, "id" => _, "name" => "elixir", "type" => "integer"}
+             ] = json_response(conn, 200)
     end
   end
 
@@ -30,7 +30,7 @@ defmodule HabitsWeb.ChainControllerTest do
         "type" => "integer",
         "description" => "pomodoro"
       }
- 
+
       conn = post(conn, ~p"/chains", chain: chain_attrs)
       assert %{"id" => _id} = json_response(conn, 201)
     end
@@ -40,7 +40,7 @@ defmodule HabitsWeb.ChainControllerTest do
         "active" => "true",
         "type" => "integer"
       }
- 
+
       conn = post(conn, ~p"/chains", chain: chain_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
@@ -57,6 +57,7 @@ defmodule HabitsWeb.ChainControllerTest do
       }
 
       conn = put(conn, ~p"/chains/#{id}", chain: update_attrs)
+
       assert %{
                "id" => ^id,
                "active" => false,

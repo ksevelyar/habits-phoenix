@@ -14,14 +14,14 @@ defmodule Habits.Factory do
       name: "elixir",
       active: true,
       type: :integer,
-      description: "pomodoro",
+      description: "pomodoro"
     }
   end
 
   def build(:metric) do
     %Habits.Metrics.Metric{
-      value: 42,
-      date: ~D[2024-09-07],
+      value_integer: 42,
+      date: ~D[2024-09-07]
     }
   end
 

@@ -14,7 +14,14 @@ defmodule Habits.Metrics do
             on: m.chain_id == c.id and m.date == ^date,
             where: c.active == ^true,
             where: c.user_id == ^user_id,
-            select: %{id: m.id, value: m.value, chain: c}
+            select: %{
+              id: m.id,
+              value_integer: m.value_integer,
+              value_float: m.value_float,
+              value_bool: m.value_bool,
+              updated_at: m.updated_at,
+              chain: c
+            }
 
         Repo.all(query)
 
@@ -26,29 +33,36 @@ defmodule Habits.Metrics do
   def history(user_id) do
     two_weeks_ago = Date.utc_today() |> Date.add(-14)
 
-    query = from m in Metric,
-      join: c in assoc(m, :chain),
-      where: m.date >= ^two_weeks_ago,
-      where: c.active == true,
-      where: c.user_id == ^user_id,
-      order_by: [asc: m.date, asc: c.id],
-      preload: [:chain]
+    query =
+      from m in Metric,
+        join: c in assoc(m, :chain),
+        where: m.date >= ^two_weeks_ago,
+        where: c.active == true,
+        where: c.user_id == ^user_id,
+        order_by: [asc: m.date, asc: c.id],
+        preload: [:chain]
 
     Repo.all(query)
   end
 
   def upsert(chain, attrs) do
-    metric_changeset =
-      chain
-      |> Ecto.build_assoc(:metrics)
-      |> Metric.changeset(attrs)
+    metric_changeset = Metric.changeset(chain, attrs)
 
-    Repo.insert(
-      metric_changeset,
-      on_conflict: {:replace, [:value, :updated_at]},
-      conflict_target: [:chain_id, :date],
-      returning: true
-    )
+    metric =
+      Repo.insert(
+        metric_changeset,
+        on_conflict: {:replace, [:value_bool, :value_integer, :value_float, :updated_at]},
+        conflict_target: [:chain_id, :date],
+        returning: true
+      )
+
+    case metric do
+      {:ok, metric} ->
+        {:ok, Repo.preload(metric, :chain)}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   def get_metric!(user_id, metric_id) do
