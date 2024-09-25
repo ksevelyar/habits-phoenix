@@ -31,12 +31,13 @@ defmodule Habits.Metrics do
   end
 
   def history(user_id) do
-    two_weeks_ago = Date.utc_today() |> Date.add(-14)
+    current_week_start = Date.beginning_of_week(Date.utc_today())
+    previous_week_start = Date.add(current_week_start, -7)
 
     query =
       from m in Metric,
         join: c in assoc(m, :chain),
-        where: m.date >= ^two_weeks_ago,
+        where: m.date >= ^previous_week_start,
         where: c.active == true,
         where: c.user_id == ^user_id,
         order_by: [asc: m.date, asc: c.id],
