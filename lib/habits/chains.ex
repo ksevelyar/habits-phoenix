@@ -5,7 +5,7 @@ defmodule Habits.Chains do
   alias Habits.Chains.Chain
 
   def list_chains(user_id) do
-    Repo.all(from c in Chain, where: c.user_id == ^user_id)
+    Repo.all(from c in Chain, where: c.user_id == ^user_id, order_by: [c.order])
   end
 
   def get_chain!(user_id, chain_id) do
@@ -14,6 +14,28 @@ defmodule Habits.Chains do
     case Repo.one(query) do
       nil -> raise Ecto.NoResultsError, queryable: query
       result -> result
+    end
+  end
+
+  def swap_order(user_id, chain_id_1, chain_id_2) do
+    query = from c in Chain, where: c.id in ^[chain_id_1, chain_id_2] and c.user_id == ^user_id
+
+    case Repo.all(query) do
+      [chain_1, chain_2] ->
+        Repo.transaction(fn ->
+          chain_1_order = chain_1.order
+          chain_2_order = chain_2.order
+
+          chain_1 = Ecto.Changeset.change(chain_1, order: chain_2_order)
+          chain_2 = Ecto.Changeset.change(chain_2, order: chain_1_order)
+
+          Repo.update!(chain_1)
+          Repo.update!(chain_2)
+
+          :ok
+        end)
+
+      _ -> raise Ecto.NoResultsError, queryable: query
     end
   end
 

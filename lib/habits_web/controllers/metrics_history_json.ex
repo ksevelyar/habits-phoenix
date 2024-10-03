@@ -1,6 +1,7 @@
 defmodule HabitsWeb.MetricsHistoryJSON do
   def index(%{metrics: metrics}) do
-    chains = for metric <- metrics, uniq: true, do: metric.chain
+    unique_chains = for metric <- metrics, uniq: true, do: metric.chain
+    chains = Enum.sort_by(unique_chains, & &1.order)
 
     metrics = Enum.map(metrics, fn metric -> data(metric) end)
 

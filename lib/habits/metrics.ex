@@ -21,7 +21,9 @@ defmodule Habits.Metrics do
               value_bool: m.value_bool,
               updated_at: m.updated_at,
               chain: c
-            }
+            },
+            order_by: c.order
+
 
         Repo.all(query)
 
