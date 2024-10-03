@@ -27,6 +27,8 @@ defmodule HabitsWeb.Router do
     resources "/sessions", SessionController, only: [:delete, :show], singleton: true
 
     resources "/chains", ChainController, only: [:show, :index, :create, :update, :delete]
+    resources "/chains/order", ChainOrderController, only: [:create]
+
     resources "/metrics", MetricController, only: [:index, :create, :delete]
     resources "/metrics_history", MetricsHistoryController, only: [:index, :create, :delete]
   end

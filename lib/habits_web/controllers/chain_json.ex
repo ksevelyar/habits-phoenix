@@ -15,7 +15,8 @@ defmodule HabitsWeb.ChainJSON do
       name: chain.name,
       type: chain.type,
       active: chain.active,
-      description: chain.description
+      description: chain.description,
+      order: chain.order
     }
   end
 end

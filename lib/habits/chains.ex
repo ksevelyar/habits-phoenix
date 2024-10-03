@@ -17,6 +17,28 @@ defmodule Habits.Chains do
     end
   end
 
+  def swap_order(user_id, chain_id_1, chain_id_2) do
+    query = from c in Chain, where: c.id in ^[chain_id_1, chain_id_2] and c.user_id == ^user_id
+
+    case Repo.all(query) do
+      [chain_1, chain_2] ->
+        Repo.transaction(fn ->
+          chain_1_order = chain_1.order
+          chain_2_order = chain_2.order
+
+          chain_1 = Ecto.Changeset.change(chain_1, order: chain_2_order)
+          chain_2 = Ecto.Changeset.change(chain_2, order: chain_1_order)
+
+          Repo.update!(chain_1)
+          Repo.update!(chain_2)
+
+          :ok
+        end)
+
+      _ -> raise Ecto.NoResultsError, queryable: query
+    end
+  end
+
   def create_chain(user, attrs \\ %{}) do
     user
     |> Ecto.build_assoc(:chains, attrs)
