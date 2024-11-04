@@ -9,6 +9,7 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
+      lib = pkgs.lib;
 
       beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_27;
       elixir = beamPackages.elixir_1_17;
@@ -18,6 +19,7 @@
           elixir
           pkgs.elixir_ls
           pkgs.inotify-tools
+          pkgs.mix2nix
         ];
 
         shellHook = ''
@@ -30,6 +32,16 @@
           export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_path '\"$PWD/.erlang-history\"'"
           export FRONT=http://habits.lcl:3000
         '';
+      };
+
+      packages.default = beamPackages.mixRelease {
+        src = ./.;
+        pname = "habits-phoenix";
+        version = "0.1.0";
+
+        mixNixDeps = import ./deps.nix { inherit lib beamPackages; };
+
+        buildInputs = [elixir];
       };
     });
 }
