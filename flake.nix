@@ -7,7 +7,10 @@
     nixpkgs,
     flake-utils,
   }:
-    flake-utils.lib.eachDefaultSystem (system: let
+    {
+      nixosModules.default = let fn = import ./nixos.nix; in fn self;
+    }
+    // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
       lib = pkgs.lib;
 
@@ -39,7 +42,7 @@
         pname = "habits-phoenix";
         version = "0.1.0";
 
-        mixNixDeps = import ./deps.nix { inherit lib beamPackages; };
+        mixNixDeps = import ./deps.nix {inherit lib beamPackages;};
 
         buildInputs = [elixir];
       };
