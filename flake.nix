@@ -42,6 +42,7 @@
         pname = "habits-phoenix";
         version = "0.1.0";
 
+        FRONT = "https://habits.rusty-cluster.net";
         mixNixDeps = import ./deps.nix {inherit lib beamPackages;};
 
         buildInputs = [elixir];
