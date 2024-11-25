@@ -42,7 +42,13 @@ defmodule HabitsWeb.MetricsHistoryJSON do
       |> Stream.filter(fn metric -> metric.chain_id == id end)
       |> Stream.map(fn metric -> metric.value end)
 
-    (Enum.sum(values) / Enum.count(values)) |> Float.ceil(1)
+    count = Enum.count(values)
+
+    if count == 0 do
+      nil
+    else
+      (Enum.sum(values) / count) |> Float.ceil(1)
+    end
   end
 
   defp calc_total(chain, week) do
