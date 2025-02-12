@@ -20,6 +20,7 @@
       devShell = pkgs.mkShell {
         buildInputs = [
           elixir
+          pkgs.curlie
           pkgs.elixir_ls
           pkgs.inotify-tools
           pkgs.mix2nix

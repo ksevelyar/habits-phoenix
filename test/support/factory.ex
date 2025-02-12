@@ -26,6 +26,15 @@ defmodule Habits.Factory do
     }
   end
 
+  def build(:task) do
+    %Habits.Tasks.Task{
+      active: true,
+      name: "buy milk",
+      cron: "08",
+      recurring: true,
+    }
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct!(attributes)
   end
