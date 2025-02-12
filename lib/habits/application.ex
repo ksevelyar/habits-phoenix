@@ -7,23 +7,32 @@ defmodule Habits.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
-      HabitsWeb.Telemetry,
-      Habits.Repo,
-      {DNSCluster, query: Application.get_env(:habits, :dns_cluster_query) || :ignore},
-      {Phoenix.PubSub, name: Habits.PubSub},
-      # Start the Finch HTTP client for sending emails
-      {Finch, name: Habits.Finch},
-      # Start a worker by calling: Habits.Worker.start_link(arg)
-      # {Habits.Worker, arg},
-      # Start to serve requests, typically the last entry
-      HabitsWeb.Endpoint
-    ]
+    children =
+      [
+        HabitsWeb.Telemetry,
+        Habits.Repo,
+        {DNSCluster, query: Application.get_env(:habits, :dns_cluster_query) || :ignore},
+        {Phoenix.PubSub, name: Habits.PubSub},
+        # Start the Finch HTTP client for sending emails
+        {Finch, name: Habits.Finch},
+        # Start a worker by calling: Habits.Worker.start_link(arg)
+        # {Habits.Worker, arg},
+        # Start to serve requests, typically the last entry
+        HabitsWeb.Endpoint
+      ] ++ task_notifier()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Habits.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp task_notifier do
+    if Application.get_env(:habits, :start_notifier?) do
+      [Habits.TaskNotifier]
+    else
+      []
+    end
   end
 
   # Tell Phoenix to update the endpoint configuration

@@ -14,15 +14,15 @@
       pkgs = import nixpkgs {inherit system;};
       lib = pkgs.lib;
 
-      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_28;
+      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_27;
       elixir = beamPackages.elixir_1_18;
     in {
       devShell = pkgs.mkShell {
         buildInputs = [
           elixir
+          pkgs.curlie
           pkgs.elixir_ls
           pkgs.inotify-tools
-          pkgs.mix2nix
         ];
 
         shellHook = ''
@@ -43,7 +43,12 @@
         version = "0.1.0";
 
         FRONT = "https://habits.rusty-cluster.net";
-        mixNixDeps = import ./deps.nix {inherit lib beamPackages;};
+        mixFodDeps = beamPackages.fetchMixDeps {
+          pname = "mix-deps-habits-phoenix";
+          src = ./.;
+          version = "0.1.0";
+          hash = "sha256-fCvPNqJLZnwizQIafA3Dt/wKJO/29qBAo+SbBQDR8bc=";
+        };
 
         buildInputs = [elixir];
       };
