@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :habits, telegram_api: Telegram.Api
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 config :habits,
   ecto_repos: [Habits.Repo],
   generators: [timestamp_type: :utc_datetime]

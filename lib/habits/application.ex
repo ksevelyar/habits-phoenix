@@ -17,13 +17,21 @@ defmodule Habits.Application do
       # Start a worker by calling: Habits.Worker.start_link(arg)
       # {Habits.Worker, arg},
       # Start to serve requests, typically the last entry
-      HabitsWeb.Endpoint
-    ]
+      HabitsWeb.Endpoint,
+    ] ++ task_notifier()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Habits.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp task_notifier do
+    if Mix.env() == :test do
+      []
+    else
+      [Habits.TaskNotifier]
+    end
   end
 
   # Tell Phoenix to update the endpoint configuration

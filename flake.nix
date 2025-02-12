@@ -20,6 +20,7 @@
       devShell = pkgs.mkShell {
         buildInputs = [
           elixir
+          pkgs.curlie
           pkgs.elixir_ls
           pkgs.inotify-tools
           pkgs.mix2nix
@@ -40,7 +41,7 @@
       packages.default = beamPackages.mixRelease {
         src = ./.;
         pname = "habits-phoenix";
-        version = "0.1.0";
+        version = "0.2.0";
 
         FRONT = "https://habits.rusty-cluster.net";
         mixNixDeps = import ./deps.nix {inherit lib beamPackages;};
