@@ -14,7 +14,8 @@ defmodule Habits.Factory do
       name: "elixir",
       active: true,
       type: :integer,
-      description: "pomodoro"
+      description: "pomodoro",
+      aggregate: :sum
     }
   end
 

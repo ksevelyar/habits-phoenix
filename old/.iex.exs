@@ -1,4 +1,0 @@
-alias Fitlog.{
-  Repo,
-  Log
-}

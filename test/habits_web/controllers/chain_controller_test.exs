@@ -28,7 +28,8 @@ defmodule HabitsWeb.ChainControllerTest do
         "name" => "rust",
         "active" => "true",
         "type" => "integer",
-        "description" => "pomodoro"
+        "description" => "pomodoro",
+        "aggregate" => "sum"
       }
 
       conn = post(conn, ~p"/chains", chain: chain_attrs)

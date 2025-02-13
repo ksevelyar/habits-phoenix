@@ -36,7 +36,7 @@ defmodule HabitsWeb.MetricsHistoryJSON do
     end)
   end
 
-  defp calc_total(%{name: "weight", id: id}, week) do
+  defp calc_total(%{aggregate: :avg, id: id}, week) do
     values =
       week
       |> Stream.filter(fn metric -> metric.chain_id == id end)

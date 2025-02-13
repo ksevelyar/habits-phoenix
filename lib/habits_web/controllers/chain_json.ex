@@ -10,13 +10,6 @@ defmodule HabitsWeb.ChainJSON do
   end
 
   defp data(%Chain{} = chain) do
-    %{
-      id: chain.id,
-      name: chain.name,
-      type: chain.type,
-      active: chain.active,
-      description: chain.description,
-      order: chain.order
-    }
+    Map.take(chain, [:id, :name, :type, :active, :descripton, :order, :aggregate])
   end
 end
