@@ -14,8 +14,8 @@
       pkgs = import nixpkgs {inherit system;};
       lib = pkgs.lib;
 
-      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_27;
-      elixir = beamPackages.elixir_1_17;
+      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_28;
+      elixir = beamPackages.elixir_1_18;
     in {
       devShell = pkgs.mkShell {
         buildInputs = [

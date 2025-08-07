@@ -33,11 +33,11 @@ defmodule Habits.MixProject do
   defp deps do
     [
       {:bcrypt_elixir, "~> 3.1"},
-      {:phoenix, "~> 1.7.14"},
-      {:phoenix_ecto, "~> 4.5"},
+      {:phoenix, "~> 1.8.0"},
+      {:phoenix_ecto, "~> 4.6"},
       {:ecto_sql, "~> 3.10"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
+      {:phoenix_live_dashboard, "~> 0.8.7"},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},

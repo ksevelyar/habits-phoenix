@@ -24,7 +24,6 @@ defmodule Habits.Metrics do
             },
             order_by: c.order
 
-
         Repo.all(query)
 
       error ->

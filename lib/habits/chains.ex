@@ -35,7 +35,8 @@ defmodule Habits.Chains do
           :ok
         end)
 
-      _ -> raise Ecto.NoResultsError, queryable: query
+      _ ->
+        raise Ecto.NoResultsError, queryable: query
     end
   end
 
