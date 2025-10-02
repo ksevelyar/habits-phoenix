@@ -7,11 +7,9 @@ defmodule HabitsWeb.TaskControllerTest do
   @update_attrs %{
     active: false,
     name: "some updated name",
-    type: :integer,
-    cron: "some updated cron",
-    recurring: false
+    cron: "0 1 * * *"
   }
-  @invalid_attrs %{active: nil, name: nil, type: nil, cron: nil, recurring: nil}
+  @invalid_attrs %{active: nil, name: nil, cron: nil}
 
   setup %{conn: conn} do
     user = insert!(:user)
@@ -23,7 +21,7 @@ defmodule HabitsWeb.TaskControllerTest do
   describe "index" do
     test "lists all tasks", %{conn: conn} do
       conn = get(conn, ~p"/tasks")
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200) == []
     end
   end
 
@@ -33,21 +31,18 @@ defmodule HabitsWeb.TaskControllerTest do
         user_id: user.id,
         active: true,
         name: "some name",
-        type: :integer,
-        cron: "some cron",
-        recurring: true
+        cron: "*/3 * * * *"
       }
 
       conn = post(conn, ~p"/tasks", task: create_attrs)
 
-      assert data = json_response(conn, 201)["data"]
+      assert data = json_response(conn, 201)
+
       assert %{
                "id" => _,
                "active" => true,
-               "cron" => "some cron",
-               "name" => "some name",
-               "recurring" => true,
-               "type" => "integer"
+               "cron" => "*/3 * * * *",
+               "name" => "some name"
              } = data
     end
 
@@ -62,15 +57,13 @@ defmodule HabitsWeb.TaskControllerTest do
 
     test "renders task when data is valid", %{conn: conn, task: %Task{id: id} = task} do
       conn = put(conn, ~p"/tasks/#{task}", task: @update_attrs)
-      assert data = json_response(conn, 200)["data"]
+      assert data = json_response(conn, 200)
 
       assert %{
                "id" => ^id,
                "active" => false,
-               "cron" => "some updated cron",
-               "name" => "some updated name",
-               "recurring" => false,
-               "type" => "integer"
+               "cron" => "0 1 * * *",
+               "name" => "some updated name"
              } = data
     end
 
@@ -88,7 +81,7 @@ defmodule HabitsWeb.TaskControllerTest do
       assert response(conn, 204)
 
       conn = get(conn, ~p"/tasks")
-      assert json_response(conn, 200)["data"] == []
+      assert json_response(conn, 200) == []
     end
   end
 

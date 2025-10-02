@@ -30,8 +30,7 @@ defmodule Habits.Factory do
     %Habits.Tasks.Task{
       active: true,
       name: "buy milk",
-      cron: "08",
-      recurring: true,
+      cron: "0 0 * * *",
     }
   end
 
