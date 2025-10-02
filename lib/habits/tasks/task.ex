@@ -5,11 +5,10 @@ defmodule Habits.Tasks.Task do
   schema "tasks" do
     field :active, :boolean, default: false
     field :name, :string
-    field :type, Ecto.Enum, values: [:integer]
     field :cron, :string
-    field :recurring, :boolean, default: false
-    field :user_id, :id
     field :notified_at, :utc_datetime_usec
+
+    field :user_id, :id
 
     timestamps(type: :utc_datetime)
   end
@@ -17,7 +16,7 @@ defmodule Habits.Tasks.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:name, :type, :active, :cron, :recurring])
-    |> validate_required([:name, :type, :active, :cron, :recurring])
+    |> cast(attrs, [:name, :active, :cron])
+    |> validate_required([:name, :active, :cron])
   end
 end
