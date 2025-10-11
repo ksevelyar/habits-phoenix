@@ -21,13 +21,29 @@ defmodule Habits.TaskNotifierTest do
     start_supervised!(Habits.TaskNotifier)
   end
 
-  test "does not notify if task already notified today" do
+  test "does not notify if the task was already notified today" do
+    System.put_env("TELEGRAM_CHAT_ID", "24")
     System.put_env("TELEGRAM_BOT_TOKEN", "42")
 
     insert!(:task,
       cron: "* * * * *",
       name: "Test task",
       notified_at: DateTime.utc_now()
+    )
+
+    start_supervised!(Habits.TaskNotifier)
+
+    expect(Habits.TelegramApiMock, :request, 0, fn _, _, _ -> :ok end)
+  end
+
+  test "does not notify inactive tasks" do
+    System.put_env("TELEGRAM_CHAT_ID", "24")
+    System.put_env("TELEGRAM_BOT_TOKEN", "42")
+
+    insert!(:task,
+      cron: "* * * * *",
+      name: "Test task",
+      active: false
     )
 
     start_supervised!(Habits.TaskNotifier)

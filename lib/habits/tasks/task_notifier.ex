@@ -46,7 +46,7 @@ defmodule Habits.TaskNotifier do
     start_of_today = DateTime.new!(today, ~T[00:00:00], now_moscow.time_zone)
 
     tasks_with_next_time =
-      Repo.all(Task)
+      Repo.all(from t in Task, where: t.active == true)
       |> Enum.map(fn task ->
         with {:ok, cron} <- Crontab.CronExpression.Parser.parse(task.cron),
              {:ok, next_date} <- Crontab.Scheduler.get_next_run_date(cron, start_of_today) do
@@ -96,6 +96,7 @@ defmodule Habits.TaskNotifier do
 
     query =
       from t in Task,
+        where: t.active == true,
         where: is_nil(t.notified_at) or fragment("date(?) != ?", t.notified_at, ^today)
 
     query
