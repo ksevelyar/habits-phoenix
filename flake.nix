@@ -1,6 +1,7 @@
 {
-  description = "habits-elixir";
-  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+  description = "habits-phoenix";
+
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
 
   outputs = {
     self,
@@ -12,16 +13,15 @@
     }
     // flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
-      lib = pkgs.lib;
 
-      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_27;
-      elixir = beamPackages.elixir_1_18;
+      beamPackages = pkgs.beam.packagesWith pkgs.beam.interpreters.erlang_28;
+      elixir = beamPackages.elixir_1_19;
     in {
       devShell = pkgs.mkShell {
         buildInputs = [
           elixir
           pkgs.curlie
-          pkgs.elixir_ls
+          beamPackages.expert
           pkgs.inotify-tools
         ];
 
